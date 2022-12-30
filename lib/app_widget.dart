@@ -6,7 +6,6 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Modular.setInitialRoute('/profile');
     return MaterialApp.router(
       title: 'My Smart App',
       theme: ThemeData(primarySwatch: Colors.blue),

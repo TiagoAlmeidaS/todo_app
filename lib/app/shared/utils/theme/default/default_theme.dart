@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/app/shared/utils/theme/colors/colors_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_button_theme/todo_button_theme.dart';
+import 'package:todo_app/app/shared/utils/theme/default/pages/profile/signin/signin_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
+import 'components/todo_text_form_field/todo_text_form_field_theme.dart';
+
 class DefaultTheme
-    with ColorsThemeMixin, TodoButtonMixin
+    with ColorsThemeMixin, TodoButtonMixin, TodoTextFormFieldMixin, SigninThemeMixin
     implements ITodoTheme {
   @override
   ThemeData get theme => ThemeData(
@@ -47,9 +50,9 @@ class DefaultTheme
         fontWeight: FontWeight.w400,
       );
 
-  Color get ribbonBemolRed => Color(0xFFFF4539);
-  Color get ribbonBemolBlue => Color(0xFF0286D1);
-  Color get ribbonBemolWhite => Color(0xFFFFFFFF);
+  Color get ribbonBemolRed => const Color(0xFFFF4539);
+  Color get ribbonBemolBlue => const Color(0xFF0286D1);
+  Color get ribbonBemolWhite => const Color(0xFFFFFFFF);
 
   TextStyle get appBarTitle => GoogleFonts.openSans(
         color: shadesOfLight[100],

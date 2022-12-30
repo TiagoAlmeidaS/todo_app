@@ -7,7 +7,7 @@ class TodoColors with ColorsThemeMixin {}
 
 var colors = TodoColors();
 mixin ColorsThemeMixin implements IColorsTheme {
-  Color _primaryColor = Color(0xff2a2952);
+  final Color _primaryColor = Color(0xff2a2952);
 
   @override
   Color get primaryColorMain => _primaryColor;
@@ -16,20 +16,20 @@ mixin ColorsThemeMixin implements IColorsTheme {
   Color get primaryOutlineColor => _primaryColor;
 
   @override
-  Color get primaryColorLighter => Color(0xFF02C2EF);
+  Color get primaryColorLighter => const Color(0xff009ff2);
 
   @override
-  Color get primaryColorLight => Color(0xFFE1EEF8);
+  Color get primaryColorLight => const Color(0xFFE1EEF8);
 
   @override
-  Color get primaryColorDarker => Color(0xFF0047A5);
+  Color get primaryColorDarker => const Color(0xFF0047A5);
 
-  Color _secondaryColor = Color(0xFFA66DD4);
+  final Color _secondaryColor = const Color(0xFFA66DD4);
 
   @override
   Color get secondaryColor => _secondaryColor;
 
-  Color _suffixTextFieldIconColor = Color(0xFF6C6C6F);
+  final Color _suffixTextFieldIconColor = const Color(0xFF6C6C6F);
 
   @override
   Color get suffixTextFieldIconColor => _suffixTextFieldIconColor;
@@ -38,15 +38,18 @@ mixin ColorsThemeMixin implements IColorsTheme {
   CustomColorScheme get colorScheme => CustomColorScheme(
       primary: _primaryColor,
       secondary: _secondaryColor,
-      success: Color(0xFF23C653),
-      warning: Color(0xFFEFB52D),
-      danger: Color(0xFFFF4539));
+      success: const Color(0xFF23C653),
+      warning: const Color(0xFFEFB52D),
+      danger: const Color(0xFFFF4539));
 
   @override
-  Color get backgroundColor => Color(0xFFF7F7F7);
+  Color get backgroundColor => const Color(0xFFF7F7F7);
 
   @override
-  ColorSwatch<int> get gray => ColorSwatch<int>(50, {
+  Color get textFieldBackgroundColor => const Color(0xfff7f5f4);
+
+  @override
+  ColorSwatch<int> get gray => const ColorSwatch<int>(50, {
         50: Color(0xFFD6D6D6),
         100: Color(0xFFF2F2F5),
         200: Color(0xFF8E90A6),

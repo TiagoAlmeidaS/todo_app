@@ -9,6 +9,20 @@ part of 'signin_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SigninController on _SigninControllerBase, Store {
+  final _$_SigninControllerBaseActionController =
+      ActionController(name: '_SigninControllerBase');
+
+  @override
+  TodoTextInputMessage emailRulesOnChange(String? value) {
+    final _$actionInfo = _$_SigninControllerBaseActionController.startAction(
+        name: '_SigninControllerBase.emailRulesOnChange');
+    try {
+      return super.emailRulesOnChange(value);
+    } finally {
+      _$_SigninControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

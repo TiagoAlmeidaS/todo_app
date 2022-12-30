@@ -15,6 +15,7 @@ abstract class IColorsTheme {
   CustomColorScheme get colorScheme;
 
   Color get backgroundColor;
+  Color get textFieldBackgroundColor;
 
   ColorSwatch<int> get gray;
   ColorSwatch<int> get shadesOfDark;

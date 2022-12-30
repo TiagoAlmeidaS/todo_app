@@ -120,9 +120,9 @@ class _TodoButtonState extends State<TodoButton> {
       case TodoButtonState.loadingOutlined:
         return true;
       case TodoButtonState.loadingFilledDark:
-      case TodoButtonState.standardFilledDark:
       case TodoButtonState.standardOutlined:
         return true;
+      case TodoButtonState.standardFilledDark:
       default:
         return false;
     }

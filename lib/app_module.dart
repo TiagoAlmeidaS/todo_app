@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:todo_app/app/modules/profile/signin/signin_module.dart';
+import 'package:todo_app/app/modules/profile/profile_module.dart';
+import 'package:todo_app/app/modules/splash/splash_module.dart';
 import 'package:todo_app/app/shared/utils/theme/default/default_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
@@ -12,8 +13,12 @@ class AppModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ModuleRoute(
+          Modular.initialRoute,
+          module: SplashModule(),
+        ),
+        ModuleRoute(
           '/profile',
-          module: SigninModule(),
+          module: ProfileModule(),
         ),
       ];
 }

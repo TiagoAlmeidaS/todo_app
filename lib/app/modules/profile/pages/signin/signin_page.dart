@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:todo_app/app/modules/components/todo_button/todo_button_component.dart';
 import 'package:todo_app/app/modules/components/todo_text_form_field/todo_text_form_field.dart';
-import 'package:todo_app/app/modules/profile/signin/signin_controller.dart';
+import 'package:todo_app/app/modules/profile/pages/signin/signin_controller.dart';
+import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
+import 'package:todo_app/app/shared/utils/assets/assets_utils.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
 class SigninPage extends StatefulWidget {
@@ -21,6 +24,10 @@ class _SigninPageState extends State<SigninPage> {
         body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        SvgPicture.asset(logoSvg),
+        const SizedBox(
+          height: 10,
+        ),
         TodoTextFormField(
           label: "E-mail: ",
           enabled: true,
@@ -56,9 +63,7 @@ class _SigninPageState extends State<SigninPage> {
         TodoButton(
           label: "Login",
           state: TodoButtonState.standardFilledDark,
-          onTap: () {
-
-          },
+          onTap: () {},
         ),
         Text(
           "Login with google:",
@@ -84,12 +89,15 @@ class _SigninPageState extends State<SigninPage> {
                   style: Modular.get<ITodoTheme>().labelLink,
                   textAlign: TextAlign.right,
                 ),
-                onTap: () {},
+                onTap: () {
+                  Modular.to.pushReplacementNamed(
+                    ProfileRouters.signup.fullRoute,
+                  );
+                },
               ),
             ],
           ),
         )
-
       ],
     ));
   }

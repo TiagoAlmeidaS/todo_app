@@ -5,7 +5,9 @@ import 'package:todo_app/app/modules/profile/pages/signin/signin_page.dart';
 class SigninModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind((i) => SigninController()),
+        Bind(
+          (i) => SigninController(),
+        ),
       ];
 
   @override

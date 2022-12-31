@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_app/app/shared/utils/theme/colors/colors_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_button_theme/todo_button_theme.dart';
+import 'package:todo_app/app/shared/utils/theme/default/components/todo_title_page_theme/todo_title_page_theme.dart';
+import 'package:todo_app/app/shared/utils/theme/default/pages/notes_feed/my_notes/my_notes_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/pages/profile/signin/signin_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
-import 'components/todo_text_form_field/todo_text_form_field_theme.dart';
+import 'components/todo_card_note_theme/todo_card_note_theme.dart';
+import 'components/todo_text_form_field_theme/todo_text_form_field_theme.dart';
 
 class DefaultTheme
-    with ColorsThemeMixin, TodoButtonMixin, TodoTextFormFieldMixin, SigninThemeMixin
+    with
+        ColorsThemeMixin,
+        TodoButtonMixin,
+        TodoTextFormFieldMixin,
+        SigninThemeMixin,
+        TodoTitlePageThemeMixin,
+        MyNotesThemeMixin,
+        TodoCardNoteThemeMixin
     implements ITodoTheme {
   @override
   ThemeData get theme => ThemeData(

@@ -19,7 +19,7 @@ mixin ColorsThemeMixin implements IColorsTheme {
   Color get primaryColorLighter => const Color(0xff009ff2);
 
   @override
-  Color get primaryColorLight => const Color(0xFFE1EEF8);
+  Color get primaryColorLight => const Color(0xfff2f1f6);
 
   @override
   Color get primaryColorDarker => const Color(0xFF0047A5);

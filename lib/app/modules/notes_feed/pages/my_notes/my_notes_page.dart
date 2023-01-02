@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -14,6 +15,8 @@ class MyNotesPage extends StatefulWidget {
 }
 
 class _MyNotesPageState extends State<MyNotesPage> {
+  CarouselController buttonCarouselController = CarouselController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,9 +53,29 @@ class _MyNotesPageState extends State<MyNotesPage> {
               const SizedBox(
                 height: 27,
               ),
-              const TodoCardNote(
-                titleCard: "Exemplo 1",
-                descriptionCard: "Testando dois parâmetros aqui.",
+              CarouselSlider(
+                items: const [
+                  TodoCardNote(
+                    titleCard: "Exemplo 1",
+                    descriptionCard: "Testando dois parâmetros aqui.",
+                  ),
+                  TodoCardNote(
+                    titleCard: "Exemplo 1",
+                    descriptionCard: "Testando dois parâmetros aqui.",
+                  ),
+                  TodoCardNote(
+                    titleCard: "Exemplo 1",
+                    descriptionCard: "Testando dois parâmetros aqui.",
+                  ),
+                ],
+                carouselController: buttonCarouselController,
+                options: CarouselOptions(
+                  autoPlay: false,
+                  enlargeCenterPage: true,
+                  viewportFraction: 0.9,
+                  aspectRatio: 2.0,
+                  initialPage: 2,
+                ),
               ),
             ],
           ),

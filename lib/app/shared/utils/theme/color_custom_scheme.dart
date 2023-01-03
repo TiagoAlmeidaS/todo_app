@@ -7,6 +7,7 @@ class CustomColorScheme with Diagnosticable {
   final Color danger;
   final Color warning;
   final Color success;
+  final Color dangerPink;
 
   CustomColorScheme({
     required this.primary,
@@ -14,5 +15,6 @@ class CustomColorScheme with Diagnosticable {
     required this.danger,
     required this.warning,
     required this.success,
+    required this.dangerPink
   });
 }

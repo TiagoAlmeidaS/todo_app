@@ -7,4 +7,9 @@ part 'my_notes_controller.g.dart';
 class MyNotesController = _MyNotesControllerBase with _$MyNotesController;
 
 abstract class _MyNotesControllerBase with Store {
+
+
+  @observable
+
+
 }

@@ -40,7 +40,10 @@ mixin ColorsThemeMixin implements IColorsTheme {
       secondary: _secondaryColor,
       success: const Color(0xFF23C653),
       warning: const Color(0xFFEFB52D),
-      danger: const Color(0xFFFF4539));
+      danger: const Color(0xFFFF4539),
+      dangerPink: const Color(0xfff36b80)
+  );
+  
 
   @override
   Color get backgroundColor => const Color(0xFFF7F7F7);

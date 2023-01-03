@@ -15,6 +15,7 @@ class MyNotesPage extends StatefulWidget {
 }
 
 class _MyNotesPageState extends State<MyNotesPage> {
+  int _current = 0;
   CarouselController buttonCarouselController = CarouselController();
 
   @override
@@ -54,28 +55,54 @@ class _MyNotesPageState extends State<MyNotesPage> {
                 height: 27,
               ),
               CarouselSlider(
-                items: const [
-                  TodoCardNote(
-                    titleCard: "Exemplo 1",
-                    descriptionCard: "Testando dois parâmetros aqui.",
-                  ),
-                  TodoCardNote(
-                    titleCard: "Exemplo 1",
-                    descriptionCard: "Testando dois parâmetros aqui.",
-                  ),
-                  TodoCardNote(
-                    titleCard: "Exemplo 1",
-                    descriptionCard: "Testando dois parâmetros aqui.",
-                  ),
+                items: [
+                  Column(
+                    children: const [
+                      TodoCardNote(
+                        margin: EdgeInsets.symmetric(vertical: 2),
+                        titleCard: "Exemplo 1",
+                        descriptionCard: "Testando dois parâmetros aqui.",
+                      ),
+                      TodoCardNote(
+                        margin: EdgeInsets.symmetric(vertical: 2),
+                        titleCard: "Exemplo 1",
+                        descriptionCard: "Testando dois parâmetros aqui.",
+                      ),
+                    ],
+                  )
                 ],
                 carouselController: buttonCarouselController,
                 options: CarouselOptions(
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      _current = index;
+                    });
+                  },
                   autoPlay: false,
                   enlargeCenterPage: true,
                   viewportFraction: 0.9,
                   aspectRatio: 2.0,
                   initialPage: 2,
                 ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: imgList.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => buttonCarouselController.animateToPage(entry.key),
+                    child: Container(
+                      width: 12.0,
+                      height: 12.0,
+                      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: (Theme.of(context).brightness == Brightness.dark
+                              ? Colors.white
+                              : Colors.black)
+                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                    ),
+                  );
+                }).toList(),
               ),
             ],
           ),

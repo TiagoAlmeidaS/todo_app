@@ -70,4 +70,12 @@ class DefaultTheme
         fontWeight: FontWeight.w600,
         letterSpacing: -0.24,
       );
+
+  @override
+  TextStyle get flushbarMessageStyle => GoogleFonts.openSans(
+    fontSize: 14,
+    fontStyle: FontStyle.normal,
+    color: colors.shadesOfLight[100],
+    fontWeight: FontWeight.w600,
+  );
 }

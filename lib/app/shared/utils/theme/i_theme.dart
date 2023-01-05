@@ -18,4 +18,5 @@ abstract class ITodoTheme
         ITodoTitlePageTheme,
         ITodoCardNoteTheme {
   ThemeData get theme;
+  TextStyle get flushbarMessageStyle;
 }

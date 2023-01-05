@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
 class TodoCardNote extends StatefulWidget {
   const TodoCardNote({
     Key? key,
-    required this.titleCard,
-    required this.descriptionCard,
+    this.titleCard,
+    this.descriptionCard,
     this.margin,
     this.padding,
     this.onTapCard,
     this.onTapDelete,
+    this.state = TodoCardNoteState.standard,
   }) : super(key: key);
 
   final String? titleCard;
@@ -21,6 +23,7 @@ class TodoCardNote extends StatefulWidget {
 
   final Function()? onTapCard;
   final Function()? onTapDelete;
+  final TodoCardNoteState state;
 
   @override
   State<TodoCardNote> createState() => _TodoCardNoteState();
@@ -32,9 +35,11 @@ class _TodoCardNoteState extends State<TodoCardNote> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTapCard,
+      onTap:
+          widget.state == TodoCardNoteState.standard ? widget.onTapCard : null,
       onLongPress: () => changeIsToDelete(isToDelete),
-      child: Row(
+      child: widget.state == TodoCardNoteState.standard
+          ? Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
@@ -42,17 +47,18 @@ class _TodoCardNoteState extends State<TodoCardNote> {
               margin: widget.margin ??
                   const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               padding: widget.padding ??
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                 color: Modular.get<ITodoTheme>().primaryColorLight,
                 borderRadius: isToDelete
                     ? const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        bottomLeft: Radius.circular(12),
-                      )
+                  topLeft: Radius.circular(12),
+                  bottomLeft: Radius.circular(12),
+                )
                     : const BorderRadius.all(
-                        Radius.circular(12),
-                      ),
+                  Radius.circular(12),
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -75,7 +81,8 @@ class _TodoCardNoteState extends State<TodoCardNote> {
                       ),
                       Text(
                         "${widget.descriptionCard}",
-                        style: Modular.get<ITodoTheme>().descriptionCardNote,
+                        style:
+                        Modular.get<ITodoTheme>().descriptionCardNote,
                       ),
                     ],
                   ),
@@ -88,8 +95,8 @@ class _TodoCardNoteState extends State<TodoCardNote> {
               child: AnimatedContainer(
                 width: isToDelete ? 50 : 0,
                 alignment: Alignment.center,
-                padding:
-                    widget.padding ?? const EdgeInsets.symmetric(vertical: 17),
+                padding: widget.padding ??
+                    const EdgeInsets.symmetric(vertical: 17),
                 duration: const Duration(milliseconds: 500),
                 decoration: BoxDecoration(
                   color: Modular.get<ITodoTheme>().colorScheme.dangerPink,
@@ -107,11 +114,49 @@ class _TodoCardNoteState extends State<TodoCardNote> {
                 ),
               )),
         ],
+      )
+          : contentLoading(),
+    );
+  }
+
+  Widget contentLoading() {
+    return TodoShimmer(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Container(
+              margin:
+                  const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              padding:
+                  const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    child: Text(
+                      "loading",
+                      style: Modular.get<ITodoTheme>().headerCardNote,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  void changeIsToDelete(bool value) => setState(() {
-        isToDelete = !value;
-      });
+  void changeIsToDelete(bool value) => setState(
+        () {
+          isToDelete = !value;
+        },
+      );
 }
+
+enum TodoCardNoteState { standard, loading }

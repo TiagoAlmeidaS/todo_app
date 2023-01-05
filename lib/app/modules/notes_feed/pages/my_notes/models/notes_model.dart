@@ -1,32 +1,36 @@
 import 'dart:convert';
 
-NotesModel notesModelFromMap(String str) =>
-    NotesModel.fromMap(json.decode(str));
+NoteModel notesModelFromMap(String str) =>
+    NoteModel.fromMap(json.decode(str));
 
-// String notesModelToMap(NotesModel data) => json.decode(data.toMap());
+// String notesModelToMap(NoteModel data) => json.decode(data.toMap());
 
-class NotesModel {
+class NoteModel {
   int? id;
   String? title;
-  String? body;
+  String? description;
+  int? createAt;
 
-  NotesModel({this.id, this.title, this.body});
+  NoteModel({this.id, this.title, this.description, this.createAt});
 
-  NotesModel copyWith({int? id, String? title, String? body}) => NotesModel(
+  NoteModel copyWith({int? id, String? title, String? description, int? createAt}) => NoteModel(
         id: id ?? this.id,
-        body: body ?? this.body,
+        description: description ?? this.description,
         title: title ?? this.title,
+        createAt: createAt ?? this.createAt
       );
 
-  factory NotesModel.fromMap(Map<String, dynamic> json) => NotesModel(
+  factory NoteModel.fromMap(Map<String, dynamic> json) => NoteModel(
     id: json["id"] == null ? null : json["id"],
-    body: json["body"] == null ? null : json["body"],
+    description: json["description"] == null ? null : json["description"],
     title: json["title"] == null ? null : json["title"],
+    createAt: json["createAt"] == null ? null : json["createAt"],
   );
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
-    "body": body == null ? null : body,
+    "description": description == null ? null : description,
     "title": title == null ? null : title,
+    "createAt": createAt == null ? null : createAt,
   };
 }

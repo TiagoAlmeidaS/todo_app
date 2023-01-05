@@ -1,0 +1,1 @@
+enum FlushBarColor { SUCCESS, WARNING, ERROR }

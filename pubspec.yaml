@@ -51,6 +51,7 @@ dependencies:
   shimmer: ^2.0.0
   persistent_bottom_nav_bar: ^5.0.2
   date_picker_timeline: ^1.2.3
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +81,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/svg/
+    - assets/images/
     - contracts/notes_feed/my_notes/
   #   - images/a_dot_ham.jpeg
 

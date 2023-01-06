@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:todo_app/app/modules/components/todo_calendary/todo_calendary.dart';
 import 'package:todo_app/app/modules/components/todo_card_note/todo_card_note.dart';
 import 'package:todo_app/app/modules/components/todo_header_page/todo_header_page.dart';
 import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
@@ -45,8 +46,14 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
                         secondLabel: "Feed",
                       ),
                     ),
-                    const SizedBox(
-                      height: 27,
+                    const SizedBox(height: 10,),
+                    const TodoCalendary(
+                      padding: EdgeInsets.zero,
+                      temperature: 24,
+                      month: 'Janeiro',
+                      timerNow: '5:00 PM',
+                      location: "Sapé - Paraíba",
+                      srcImage: "https://sape.pb.gov.br/wp-content/uploads/2022/11/Sape.jpeg",
                     ),
                     content()
                   ],

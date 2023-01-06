@@ -9,6 +9,7 @@ abstract class IColorsTheme {
   Color get primaryColorDarker;
 
   Color get secondaryColor;
+  Color get secondaryColorLighter;
 
   Color get suffixTextFieldIconColor;
 

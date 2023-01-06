@@ -8,19 +8,19 @@ import 'package:todo_app/app/modules/components/todo_card_note/todo_card_note.da
 import 'package:todo_app/app/modules/components/todo_header_page/todo_header_page.dart';
 import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/modules/components/todo_title_page/todo_title_page.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/my_notes_controller.dart';
+import 'package:todo_app/app/modules/notes_feed/notes_feed_controller.dart';
+import 'package:todo_app/app/modules/notes_feed/routers/notes_feed_routers.dart';
 
-class MyNotesPage extends StatefulWidget {
-  const MyNotesPage({Key? key}) : super(key: key);
+class NotesFeedPage extends StatefulWidget {
+  const NotesFeedPage({Key? key}) : super(key: key);
 
   @override
-  State<MyNotesPage> createState() => _MyNotesPageState();
+  State<NotesFeedPage> createState() => _NotesFeedPageState();
 }
 
-class _MyNotesPageState extends State<MyNotesPage> {
-  int _current = 0;
+class _NotesFeedPageState extends State<NotesFeedPage> {
   CarouselController buttonCarouselController = CarouselController();
-  var controller = Modular.get<MyNotesController>();
+  var controller = Modular.get<NotesFeedController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +48,6 @@ class _MyNotesPageState extends State<MyNotesPage> {
                     const SizedBox(
                       height: 27,
                     ),
-                    const TodoHeaderPage(
-                      label: "Projects",
-                      icon: LineAwesomeIcons.search,
-                      padding: EdgeInsets.zero,
-                    ),
-                    const SizedBox(
-                      height: 27,
-                    ),
                     content()
                   ],
                 ),
@@ -70,63 +62,34 @@ class _MyNotesPageState extends State<MyNotesPage> {
   Widget content() {
     return Column(
       children: [
-        CarouselSlider(
-          items: controller.myNotesModel.myNotes
-              ?.map(
-                (myNotes) => TodoCardNote(
-                  titleCard: myNotes.title,
-                  descriptionCard: myNotes.description,
-                ),
-              )
-              .toList(),
-          carouselController: buttonCarouselController,
-          options: CarouselOptions(
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            },
-            autoPlay: false,
-            enlargeCenterPage: true,
-            viewportFraction: 0.9,
-            aspectRatio: 2.0,
-            initialPage: 2,
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:
-              controller.myNotesModel.myNotes?.asMap().entries.map((entry) {
-                    return Container(
-                      width: 12.0,
-                      height: 12.0,
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: (Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Colors.black)
-                            .withOpacity(_current == entry.key ? 0.9 : 0.4),
-                      ),
-                    );
-                  }).toList() ??
-                  [],
-        ),
         const SizedBox(
           height: 24,
         ),
-        const TodoHeaderPage(
+        TodoHeaderPage(
           label: "History notes",
-          icon: LineAwesomeIcons.search,
+          icon: LineAwesomeIcons.edit,
           padding: EdgeInsets.zero,
+          status: TodoHeaderPageStatus.standard,
+          actionIcon: () => Modular.to.pushNamed(
+            NotesFeedRouters.note.fullRoute,
+          ),
         ),
-        const SizedBox(height: 20,),
-        ...?controller.myNotesModel.myNotes?.map((note) => TodoCardNote(
-          margin: const EdgeInsets.symmetric(vertical: 5),
-          titleCard: note.title,
-          descriptionCard: note.description,
-        ))
+        const SizedBox(
+          height: 20,
+        ),
+        ...?controller.myNotesModel.myNotes?.map(
+          (note) => TodoCardNote(
+            margin: const EdgeInsets.symmetric(vertical: 5),
+            titleCard: note.title,
+            descriptionCard: note.description,
+            onTapCard: () {
+              Modular.to.pushNamed(
+                NotesFeedRouters.note.fullRoute,
+                arguments:  note
+              );
+            },
+          ),
+        ),
       ],
     );
   }
@@ -136,11 +99,6 @@ class _MyNotesPageState extends State<MyNotesPage> {
       children: [
         const SizedBox(
           height: 27,
-        ),
-        const TodoHeaderPage(
-          label: "Projects",
-          icon: LineAwesomeIcons.search,
-          padding: EdgeInsets.zero,
         ),
         TodoShimmer(
           child: SizedBox(

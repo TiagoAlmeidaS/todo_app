@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_app/app/modules/notes_feed/routers/notes_feed_routers.dart';
 import 'package:todo_app/app/shared/utils/assets/assets_utils.dart';
 
 import '../../shared/utils/theme/i_theme.dart';
@@ -27,7 +26,7 @@ class _SplashPageState extends State<SplashPage>
     Future.delayed(
       const Duration(seconds: 4),
       () => Modular.to.pushNamed(
-        NotesFeedRouters.myNotes.fullRoute,
+        '/custom_navigation_bar',
       ),
     );
 

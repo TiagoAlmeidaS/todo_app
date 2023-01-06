@@ -8,6 +8,8 @@ import 'package:todo_app/app/shared/utils/theme/default/pages/profile/signin/sig
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
 import 'components/todo_card_note_theme/todo_card_note_theme.dart';
+import 'components/todo_note_field_theme/todo_note_field_theme.dart';
+import 'components/todo_text_area/todo_text_area_theme.dart';
 import 'components/todo_text_form_field_theme/todo_text_form_field_theme.dart';
 
 class DefaultTheme
@@ -18,7 +20,9 @@ class DefaultTheme
         SigninThemeMixin,
         TodoTitlePageThemeMixin,
         MyNotesThemeMixin,
-        TodoCardNoteThemeMixin
+        TodoCardNoteThemeMixin,
+        TodoNoteFieldThemeMixin,
+        TodoTextAreaThemeMixin
     implements ITodoTheme {
   @override
   ThemeData get theme => ThemeData(

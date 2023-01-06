@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:todo_app/app/modules/notes_feed/errors/notes_feed_error.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/interfaces/my_notes_repository_interface.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/models/my_notes_model.dart';
+import 'package:todo_app/app/modules/notes_feed/interfaces/notes_feed_repository_interface.dart';
+import 'package:todo_app/app/shared/utils/load_json.dart';
 
-import '../../../../../shared/utils/load_json.dart';
+import '../models/my_notes_model.dart';
 
-class MyNotesRepositoryMock implements IMyNotesRepository {
+class NotesFeedRepositoryMock implements INotesFeedRepository {
   @override
   Future<Either<NotesFeedFailure, MyNotesModel>> getMyNotes(
       String userId) async {

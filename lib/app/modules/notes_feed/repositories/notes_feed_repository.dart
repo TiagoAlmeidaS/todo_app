@@ -1,15 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:todo_app/app/modules/notes_feed/errors/notes_feed_error.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/interfaces/my_notes_repository_interface.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/models/my_notes_model.dart';
 import 'package:todo_app/app/shared/services/http_client/http_client.dart';
 
-import '../../../../../shared/services/http_client/errors/http_client_exception.dart';
+import '../../../shared/services/http_client/errors/http_client_exception.dart';
+import '../interfaces/notes_feed_repository_interface.dart';
+import '../models/my_notes_model.dart';
 
-class MyNotesRepository implements IMyNotesRepository {
+
+class NotesFeedRepository implements INotesFeedRepository {
   HttpClient httpClient;
 
-  MyNotesRepository(this.httpClient);
+  NotesFeedRepository(this.httpClient);
 
   @override
   Future<Either<NotesFeedFailure, MyNotesModel>> getMyNotes(

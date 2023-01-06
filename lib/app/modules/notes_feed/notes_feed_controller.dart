@@ -2,18 +2,19 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/notes_feed/errors/notes_feed_error.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/interfaces/my_notes_repository_interface.dart';
-import 'package:todo_app/app/modules/notes_feed/pages/my_notes/models/my_notes_model.dart';
 
-part 'my_notes_controller.g.dart';
+import 'interfaces/notes_feed_repository_interface.dart';
+import 'models/my_notes_model.dart';
+
+part 'notes_feed_controller.g.dart';
 
 @Injectable()
-class MyNotesController = _MyNotesControllerBase with _$MyNotesController;
+class NotesFeedController = _NotesFeedControllerBase with _$NotesFeedController;
 
-abstract class _MyNotesControllerBase with Store {
-  IMyNotesRepository myNotesRepository;
+abstract class _NotesFeedControllerBase with Store {
+  INotesFeedRepository myNotesRepository;
 
-  _MyNotesControllerBase(this.myNotesRepository){
+  _NotesFeedControllerBase(this.myNotesRepository){
    getMyNotes();
   }
 

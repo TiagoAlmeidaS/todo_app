@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'notes_model.dart';
+import '../pages/note/models/note_model.dart';
 
 MyNotesModel notesModelFromMap(String str) =>
     MyNotesModel.fromMap(json.decode(str));

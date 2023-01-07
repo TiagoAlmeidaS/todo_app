@@ -38,16 +38,20 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
               return SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Align(
+                     Align(
                       alignment: Alignment.topLeft,
                       child: TodoTitlePage(
+                        key: const Key('titleComponent'),
                         margin: EdgeInsets.zero,
                         firstLabel: "Note",
                         secondLabel: "Feed",
+                        icon: LineAwesomeIcons.search,
+                        actionIcon: () => {},
                       ),
                     ),
                     const SizedBox(height: 10,),
                     const TodoCalendary(
+                      key: Key('calendaryComponent'),
                       padding: EdgeInsets.zero,
                       temperature: 24,
                       month: 'Janeiro',
@@ -73,6 +77,7 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
           height: 24,
         ),
         TodoHeaderPage(
+          key: const Key('headerComponent'),
           label: "History notes",
           icon: LineAwesomeIcons.edit,
           padding: EdgeInsets.zero,

@@ -64,7 +64,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(LineAwesomeIcons.check_circle),
-        title: (TaskRoutes.tasks.pageTitle),
+        title: (TasksRoutes.tasks.pageTitle),
         activeColorPrimary: Modular.get<ITodoTheme>().primaryColorMain,
         inactiveColorPrimary: Modular.get<ITodoTheme>().secondaryColor,
       ),

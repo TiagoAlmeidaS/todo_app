@@ -10,6 +10,7 @@ class TodoCalendary extends StatefulWidget {
   const TodoCalendary({
     Key? key,
     this.padding,
+    this.margin,
     this.status = TodoCalendaryStatus.standard,
     this.weatherStatus,
     this.temperature,
@@ -17,9 +18,11 @@ class TodoCalendary extends StatefulWidget {
     this.timerNow = "",
     this.location = "",
     this.srcImage,
+    this.isMinBoard = false
   }) : super(key: key);
 
   final EdgeInsets? padding;
+  final EdgeInsets? margin;
   final TodoCalendaryStatus? status;
   final TodoWeatherStatus? weatherStatus;
   final int? temperature;
@@ -27,6 +30,7 @@ class TodoCalendary extends StatefulWidget {
   final String? timerNow;
   final String? location;
   final String? srcImage;
+  final bool? isMinBoard;
 
   @override
   State<TodoCalendary> createState() => _TodoCalendaryState();
@@ -40,11 +44,8 @@ class _TodoCalendaryState extends State<TodoCalendary> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: widget.padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 20,
-          ),
+      margin: widget.margin,
+      padding: widget.padding,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
@@ -96,7 +97,56 @@ class _TodoCalendaryState extends State<TodoCalendary> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: (widget.isMinBoard ?? false) ? [
+                Text(
+                  '${widget.timerNow}',
+                  style: Modular.get<ITodoTheme>().timerNow,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${widget.temperature}',
+                      style: Modular.get<ITodoTheme>().tempature.copyWith(fontSize: 26),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 5,
+                      ),
+                      child: Text(
+                        '° C',
+                        style: Modular.get<ITodoTheme>().grade.copyWith(fontSize: 14),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 10,
+                      ),
+                      child: Icon(
+                        actionIcon(),
+                        size: 15,
+                        color: Modular.get<ITodoTheme>()
+                            .primaryColorMain,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "${widget.location}",
+                      style: Modular.get<ITodoTheme>().location,
+                    ),
+                    Icon(
+                      LineAwesomeIcons.map_marker,
+                      color: Modular.get<ITodoTheme>().primaryColorMain,
+                    ),
+                  ],
+                ),
+              ] : [
                 Container(
                   child: widget.status == TodoCalendaryStatus.loading
                       ? const TodoShimmer(
@@ -161,35 +211,33 @@ class _TodoCalendaryState extends State<TodoCalendary> {
                         ),
                 ),
                 const SizedBox(width: 5,),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 120,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            widget.srcImage ?? "",
-                            fit: BoxFit.contain,
-                          ),
-                        )
-                      ),
-                      const SizedBox(height: 5,),
-                      Row(
-                        children: [
-                          Icon(
-                            LineAwesomeIcons.map_marker,
-                            color: Modular.get<ITodoTheme>().primaryColorMain,
-                          ),
-                          Text(
-                            "${widget.location}",
-                            style: Modular.get<ITodoTheme>().location,
-                          )
-                        ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 120,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: widget.srcImage != null ? Image.network(
+                          "${widget.srcImage}",
+                          fit: BoxFit.contain,
+                        ) : const TodoShimmer(),
                       )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 5,),
+                    Row(
+                      children: [
+                        Icon(
+                          LineAwesomeIcons.map_marker,
+                          color: Modular.get<ITodoTheme>().primaryColorMain,
+                        ),
+                        Text(
+                          "${widget.location}",
+                          style: Modular.get<ITodoTheme>().location,
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

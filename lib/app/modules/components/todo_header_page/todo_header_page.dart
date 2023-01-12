@@ -8,14 +8,14 @@ class TodoHeaderPage extends StatelessWidget {
   const TodoHeaderPage({
     Key? key,
     required this.label,
-    required this.icon,
+    this.icon,
     this.status = TodoHeaderPageStatus.standard,
     this.actionIcon,
     this.padding,
   }) : super(key: key);
 
   final String label;
-  final IconData icon;
+  final IconData? icon;
   final TodoHeaderPageStatus status;
   final Function()? actionIcon;
   final EdgeInsets? padding;
@@ -35,15 +35,17 @@ class TodoHeaderPage extends StatelessWidget {
             label,
             style: Modular.get<ITodoTheme>().headerLabel,
           ),
-          TodoCircleButton(
-            icon: icon,
-            margin: EdgeInsets.zero,
-            onTap:
-                status == TodoHeaderPageStatus.disabled ? () => {} : actionIcon,
-            state: status == TodoHeaderPageStatus.disabled
-                ? TodoCircleButtonState.disabled
-                : TodoCircleButtonState.standardFilled,
-          )
+          if (icon != null)
+            TodoCircleButton(
+              icon: icon ?? Icons.add,
+              margin: EdgeInsets.zero,
+              onTap: status == TodoHeaderPageStatus.disabled
+                  ? () => {}
+                  : actionIcon,
+              state: status == TodoHeaderPageStatus.disabled
+                  ? TodoCircleButtonState.disabled
+                  : TodoCircleButtonState.standardFilled,
+            )
         ],
       ),
     );

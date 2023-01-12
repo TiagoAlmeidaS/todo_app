@@ -52,12 +52,10 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
                     const SizedBox(height: 10,),
                     const TodoCalendary(
                       key: Key('calendaryComponent'),
-                      padding: EdgeInsets.zero,
                       temperature: 24,
                       month: 'Janeiro',
                       timerNow: '5:00 PM',
                       location: "Sapé - Paraíba",
-                      srcImage: "https://sape.pb.gov.br/wp-content/uploads/2022/11/Sape.jpeg",
                     ),
                     content()
                   ],

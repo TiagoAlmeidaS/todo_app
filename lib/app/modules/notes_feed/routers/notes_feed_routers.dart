@@ -11,7 +11,7 @@ class NotesFeedRouters {
   static NavigationRouters note = NavigationRouters(
     "MyNotes",
     "/note/",
-    "/notes_feed/note",
+    "/notes_feed/note/",
   );
 
 }

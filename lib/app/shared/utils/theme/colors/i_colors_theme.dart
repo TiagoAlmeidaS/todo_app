@@ -9,6 +9,7 @@ abstract class IColorsTheme {
   Color get primaryColorDarker;
 
   Color get secondaryColor;
+  Color get pinkColorDarker;
   Color get secondaryColorLighter;
 
   Color get suffixTextFieldIconColor;
@@ -22,4 +23,6 @@ abstract class IColorsTheme {
   ColorSwatch<int> get shadesOfDark;
   ColorSwatch<int> get shadesOfLight;
   ColorSwatch<int> get shadesOfGray;
+
+  ColorSwatch<int> get colorsStatusTasks;
 }

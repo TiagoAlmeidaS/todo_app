@@ -1,11 +1,17 @@
 
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:todo_app/app/modules/tasks/mocks/tasks_repository_mock.dart';
+import 'package:todo_app/app/modules/tasks/tasks_controller.dart';
 import 'package:todo_app/app/modules/tasks/tasks_page.dart';
 
 class TasksModule extends Module {
+
   @override
-  List<Bind> get binds => [];
+  List<Bind> get binds => [
+    Bind((i) => TasksController(i.get())),
+    Bind((i) => TasksRepositoryMock()),
+  ];
 
   @override
   List<ModularRoute> get routes => [

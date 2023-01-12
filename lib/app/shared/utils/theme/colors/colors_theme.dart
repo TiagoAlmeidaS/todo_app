@@ -7,7 +7,7 @@ class TodoColors with ColorsThemeMixin {}
 
 var colors = TodoColors();
 mixin ColorsThemeMixin implements IColorsTheme {
-  final Color _primaryColor = Color(0xff2a2952);
+  final Color _primaryColor = const Color(0xff2a2952);
 
   @override
   Color get primaryColorMain => _primaryColor;
@@ -27,10 +27,13 @@ mixin ColorsThemeMixin implements IColorsTheme {
   @override
   Color get primaryColorDarker => const Color(0xFF0047A5);
 
-  final Color _secondaryColor = const Color(0xFFA66DD4);
+  final Color _secondaryColor = const Color(0xfff36b80);
 
   @override
   Color get secondaryColor => _secondaryColor;
+
+  @override
+  Color get pinkColorDarker => const Color(0xfff36b80);
 
   final Color _suffixTextFieldIconColor = const Color(0xFF6C6C6F);
 
@@ -65,7 +68,7 @@ mixin ColorsThemeMixin implements IColorsTheme {
       });
 
   @override
-  ColorSwatch<int> get shadesOfLight => ColorSwatch<int>(100, {
+  ColorSwatch<int> get shadesOfLight => const ColorSwatch<int>(100, {
         100: Color(0xFFFFFFFF),
         200: Color(0xFFFAFAFC),
         300: Color(0xFFF2F2F5),
@@ -74,7 +77,7 @@ mixin ColorsThemeMixin implements IColorsTheme {
       });
 
   @override
-  ColorSwatch<int> get shadesOfDark => ColorSwatch<int>(100, {
+  ColorSwatch<int> get shadesOfDark => const ColorSwatch<int>(100, {
         100: Color(0xFFC7C8D9),
         200: Color(0xFF8E90A6),
         300: Color(0xFF555770),
@@ -82,6 +85,7 @@ mixin ColorsThemeMixin implements IColorsTheme {
         500: Color(0xFF000000),
       });
 
+  @override
   ColorSwatch<int> get shadesOfGray => ColorSwatch<int>(600, {
         100: shadesOfLight[100]!,
         200: shadesOfLight[200]!,
@@ -94,4 +98,13 @@ mixin ColorsThemeMixin implements IColorsTheme {
         900: shadesOfDark[400]!,
         1000: shadesOfDark[500]!,
       });
+
+  ColorSwatch<int> get colorsStatusTasks => const ColorSwatch<int>(1, {
+    1: Color(0xff232252),
+    2: Color(0xffebaa37),
+    3: Color(0xFFDC4703),
+    4: Color(0xFFAFDBD4),
+  });
+
+
 }

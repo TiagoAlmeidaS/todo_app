@@ -31,6 +31,7 @@ class TodoTextFormField extends StatefulWidget {
     this.helperFixInfoMessage,
     this.padding,
     this.expands = true,
+    this.withShadow = false,
   }) : super(key: key);
 
   final String? label;
@@ -54,6 +55,7 @@ class TodoTextFormField extends StatefulWidget {
   final String? hintText;
   final EdgeInsets? padding;
   final bool? expands;
+  final bool? withShadow;
 
   final TodoTextInputMessage? Function()? helperFixInfoMessage;
 
@@ -139,124 +141,143 @@ class _TodoTextFormFieldState extends State<TodoTextFormField>
           const SizedBox(
             height: 4,
           ),
-          Container(height: 65,
-          child: TextFormField(
-            expands: widget.expands ?? true,
-            minLines: widget.minLines,
-            maxLines: widget.maxLines,
-            autocorrect: widget.autoCorrect ?? false,
-            enabled: widget.enabled,
-            controller: _controller,
-            maxLength: widget.maxLength,
-            inputFormatters: widget.inputFormatters,
-            keyboardType: widget.keyboardType,
-            obscureText: (widget.obscureText ?? false) && _hideText,
-            textCapitalization:
-            widget.textCapitalization ?? TextCapitalization.none,
-            cursorColor: Modular.get<ITodoTheme>().primaryColorMain,
-            onChanged: (_) => _onChangeListener(),
-            onFieldSubmitted: (_) => _onLeaveListener(),
-            focusNode: widget.focusNode,
-            style: Modular.get<ITodoTheme>().textFieldInputStyle,
-            decoration: InputDecoration(
-              filled: widget.state == TodoTextFieldState.filled ||
-                  widget.state == TodoTextFieldState.standard,
-              fillColor: (widget.enabled ?? false)
-                  ? Modular.get<ITodoTheme>().textFieldBackgroundColor
-                  : Modular.get<ITodoTheme>().shadesOfDark[100]!,
-              counter: const Offstage(),
-              isDense: true,
-              prefixIcon: widget.prefixIcon != null
-                  ? Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 12.0, horizontal: 12.0),
-                child: Icon(
-                  widget.prefixIcon,
-                  color: Modular.get<ITodoTheme>().primaryColorMain,
+          Container(
+            height: 60,
+            decoration: BoxDecoration(
+              boxShadow: widget.withShadow ?? false
+                  ? [
+                      BoxShadow(
+                        color: Modular.get<ITodoTheme>()
+                            .shadesOfDark[500]!
+                            .withOpacity(0.16),
+                        offset: const Offset(0, 0),
+                        blurRadius: 6,
+                      ),
+                    ]
+                  : [],
+            ),
+            child: TextFormField(
+              expands: widget.expands ?? true,
+              minLines: widget.minLines,
+              maxLines: widget.maxLines,
+              autocorrect: widget.autoCorrect ?? false,
+              enabled: widget.enabled,
+              controller: _controller,
+              maxLength: widget.maxLength,
+              inputFormatters: widget.inputFormatters,
+              keyboardType: widget.keyboardType,
+              obscureText: (widget.obscureText ?? false) && _hideText,
+              textCapitalization:
+                  widget.textCapitalization ?? TextCapitalization.none,
+              cursorColor: Modular.get<ITodoTheme>().primaryColorMain,
+              onChanged: (_) => _onChangeListener(),
+              onFieldSubmitted: (_) => _onLeaveListener(),
+              focusNode: widget.focusNode,
+              style: Modular.get<ITodoTheme>().textFieldInputStyle,
+              decoration: InputDecoration(
+                filled: widget.state == TodoTextFieldState.filled ||
+                    widget.state == TodoTextFieldState.standard,
+                fillColor: (widget.enabled ?? false)
+                    ? Modular.get<ITodoTheme>().primaryColorLight
+                    : Modular.get<ITodoTheme>().shadesOfDark[100]!,
+                counter: const Offstage(),
+                isDense: true,
+                prefixIcon: widget.prefixIcon != null
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 12.0, horizontal: 12.0),
+                        child: Icon(
+                          widget.prefixIcon,
+                          color: Modular.get<ITodoTheme>().primaryColorMain,
+                        ),
+                      )
+                    : null,
+                prefixIconConstraints: const BoxConstraints(minWidth: 18.0),
+                suffixIcon: (widget.obscureText ?? false)
+                    ? IconButton(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        padding: const EdgeInsets.only(
+                          right: 14,
+                        ),
+                        constraints: const BoxConstraints(minWidth: 18.0),
+                        icon: Icon(
+                          _hideText ? Icons.visibility_off : Icons.visibility,
+                          color: Modular.get<ITodoTheme>()
+                              .suffixTextFieldIconColor,
+                          semanticLabel: _hideText
+                              ? 'Senha oculta. Mostrar senha.'
+                              : 'Senha visível. Ocultar senha.',
+                        ),
+                        onPressed: () => setState(() {
+                          _hideText = !_hideText;
+                        }),
+                      )
+                    : _todoTextInputMessage?.todoTextInputMessageType !=
+                            TodoTextInputMessageType.HELPER
+                        ? IconButton(
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            padding: const EdgeInsets.only(
+                              right: 14,
+                            ),
+                            constraints: const BoxConstraints(minWidth: 18.0),
+                            icon: Icon(
+                              _todoTextInputMessage?.todoTextInputMessageType ==
+                                      TodoTextInputMessageType.SUCCESS
+                                  ? Icons.check_circle_outline
+                                  : Icons.info_outline,
+                              color: _todoTextInputMessage
+                                          ?.todoTextInputMessageType ==
+                                      TodoTextInputMessageType.SUCCESS
+                                  ? Modular.get<ITodoTheme>()
+                                      .colorScheme
+                                      .success
+                                  : Modular.get<ITodoTheme>()
+                                      .colorScheme
+                                      .danger,
+                              semanticLabel: _todoTextInputMessage
+                                          ?.todoTextInputMessageType ==
+                                      TodoTextInputMessageType.SUCCESS
+                                  ? 'Texto válido.'
+                                  : 'Texto inválido.',
+                            ),
+                            onPressed: () => setState(() {
+                              _hideText = !_hideText;
+                            }),
+                          )
+                        : widget.suffixIcon,
+                suffixIconConstraints: const BoxConstraints(minWidth: 38.0),
+                border: borderBehavior(),
+                enabledBorder: borderBehavior(),
+                focusedBorder: borderBehavior(),
+                hintText: widget.hintText,
+                hintStyle: Modular.get<ITodoTheme>().hintTodoTextFormField,
+                errorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: _todoTextInputMessage?.todoTextInputMessageType ==
+                            TodoTextInputMessageType.SUCCESS
+                        ? Modular.get<ITodoTheme>().colorScheme.success
+                        : _todoTextInputMessage?.todoTextInputMessageType ==
+                                TodoTextInputMessageType.ERROR
+                            ? Modular.get<ITodoTheme>().colorScheme.danger
+                            : Colors.transparent,
+                  ),
                 ),
-              )
-                  : null,
-              prefixIconConstraints: const BoxConstraints(minWidth: 18.0),
-              suffixIcon: (widget.obscureText ?? false)
-                  ? IconButton(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                padding: const EdgeInsets.only(
-                  right: 14,
-                ),
-                constraints: const BoxConstraints(minWidth: 18.0),
-                icon: Icon(
-                  _hideText ? Icons.visibility_off : Icons.visibility,
-                  color:
-                  Modular.get<ITodoTheme>().suffixTextFieldIconColor,
-                  semanticLabel: _hideText
-                      ? 'Senha oculta. Mostrar senha.'
-                      : 'Senha visível. Ocultar senha.',
-                ),
-                onPressed: () => setState(() {
-                  _hideText = !_hideText;
-                }),
-              )
-                  : _todoTextInputMessage?.todoTextInputMessageType !=
-                  TodoTextInputMessageType.HELPER
-                  ? IconButton(
-                highlightColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                padding: const EdgeInsets.only(
-                  right: 14,
-                ),
-                constraints: const BoxConstraints(minWidth: 18.0),
-                icon: Icon(
-                  _todoTextInputMessage?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.SUCCESS
-                      ? Icons.check_circle_outline
-                      : Icons.info_outline,
-                  color: _todoTextInputMessage
-                      ?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.SUCCESS
-                      ? Modular.get<ITodoTheme>().colorScheme.success
-                      : Modular.get<ITodoTheme>().colorScheme.danger,
-                  semanticLabel: _todoTextInputMessage
-                      ?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.SUCCESS
-                      ? 'Texto válido.'
-                      : 'Texto inválido.',
-                ),
-                onPressed: () => setState(() {
-                  _hideText = !_hideText;
-                }),
-              )
-                  : widget.suffixIcon,
-              suffixIconConstraints: const BoxConstraints(minWidth: 38.0),
-              border: borderBehavior(),
-              enabledBorder: borderBehavior(),
-              focusedBorder: borderBehavior(),
-              hintText: widget.hintText,
-              hintStyle: Modular.get<ITodoTheme>().hintTodoTextFormField,
-              errorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: _todoTextInputMessage?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.SUCCESS
-                      ? Modular.get<ITodoTheme>().colorScheme.success
-                      : _todoTextInputMessage?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.ERROR
-                      ? Modular.get<ITodoTheme>().colorScheme.danger
-                      : Colors.transparent,
-                ),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: _todoTextInputMessage?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.SUCCESS
-                      ? Modular.get<ITodoTheme>().colorScheme.success
-                      : _todoTextInputMessage?.todoTextInputMessageType ==
-                      TodoTextInputMessageType.ERROR
-                      ? Modular.get<ITodoTheme>().colorScheme.danger
-                      : Colors.transparent,
+                focusedErrorBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: _todoTextInputMessage?.todoTextInputMessageType ==
+                            TodoTextInputMessageType.SUCCESS
+                        ? Modular.get<ITodoTheme>().colorScheme.success
+                        : _todoTextInputMessage?.todoTextInputMessageType ==
+                                TodoTextInputMessageType.ERROR
+                            ? Modular.get<ITodoTheme>().colorScheme.danger
+                            : Colors.transparent,
+                  ),
                 ),
               ),
             ),
-          ),),
+          ),
           if (_todoTextInputMessage != null &&
               _todoTextInputMessage!.message != null &&
               _todoTextInputMessage!.message!.isNotEmpty) ...{

@@ -9,6 +9,7 @@ import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
 import 'components/todo_calendar/todo_calendar_theme.dart';
 import 'components/todo_card_note_theme/todo_card_note_theme.dart';
+import 'components/todo_card_search_theme/todo_card_search_theme.dart';
 import 'components/todo_cards_resume_theme/todo_cards_resume_theme.dart';
 import 'components/todo_note_field_theme/todo_note_field_theme.dart';
 import 'components/todo_text_area/todo_text_area_theme.dart';
@@ -26,7 +27,8 @@ class DefaultTheme
         TodoNoteFieldThemeMixin,
         TodoTextAreaThemeMixin,
         TodoCalendarThemeMixin,
-        TodoCardsResumeMixin
+        TodoCardsResumeMixin,
+        TodoCardSearchThemeMixin
     implements ITodoTheme {
   @override
   ThemeData get theme => ThemeData(

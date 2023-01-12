@@ -27,42 +27,33 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Observer(
-            builder: (context) {
-              if (controller.myNotesObservable?.status ==
-                  FutureStatus.pending) {
-                return contentLoading(context);
-              }
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                     Align(
-                      alignment: Alignment.topLeft,
-                      child: TodoTitlePage(
-                        key: const Key('titleComponent'),
-                        margin: EdgeInsets.zero,
-                        firstLabel: "Note",
-                        secondLabel: "Feed",
-                        icon: LineAwesomeIcons.search,
-                        actionIcon: () => {},
-                      ),
-                    ),
-                    const SizedBox(height: 10,),
-                    const TodoCalendary(
-                      key: Key('calendaryComponent'),
-                      temperature: 24,
-                      month: 'Janeiro',
-                      timerNow: '5:00 PM',
-                      location: "Sapé - Paraíba",
-                    ),
-                    content()
-                  ],
-                ),
-              );
-            },
-          ),
+        child: Observer(
+          builder: (context) {
+            if (controller.myNotesObservable?.status == FutureStatus.pending) {
+              return contentLoading(context);
+            }
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  TodoTitlePage(
+                    key: const Key('titleComponent'),
+                    firstLabel: "Note",
+                    secondLabel: "Feed",
+                    icon: LineAwesomeIcons.search,
+                    actionIcon: () => {},
+                  ),
+                  const TodoCalendary(
+                    key: Key('calendaryComponent'),
+                    temperature: 24,
+                    month: 'Janeiro',
+                    timerNow: '5:00 PM',
+                    location: "Sapé - Paraíba",
+                  ),
+                  content()
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
@@ -78,7 +69,6 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
           key: const Key('headerComponent'),
           label: "History notes",
           icon: LineAwesomeIcons.edit,
-          padding: EdgeInsets.zero,
           status: TodoHeaderPageStatus.standard,
           actionIcon: () => Modular.to.pushNamed(
             NotesFeedRouters.note.fullRoute,
@@ -89,14 +79,11 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
         ),
         ...?controller.myNotesModel.myNotes?.map(
           (note) => TodoCardNote(
-            margin: const EdgeInsets.symmetric(vertical: 5),
             titleCard: note.title,
             descriptionCard: note.description,
             onTapCard: () {
-              Modular.to.pushNamed(
-                NotesFeedRouters.note.fullRoute,
-                arguments:  note
-              );
+              Modular.to
+                  .pushNamed(NotesFeedRouters.note.fullRoute, arguments: note);
             },
           ),
         ),

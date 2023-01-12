@@ -13,4 +13,16 @@ class Utils {
     return dateNowFormmated;
   }
 
+  static String hourFormmated(int millis){
+    DateTime dateTime = timestampToData(millis);
+    String dateNowFormmated = DateFormat('hh:mm').format(dateTime);
+    return dateNowFormmated;
+  }
+
+  static String dateFormmated(int millis){
+    DateTime dateTime = timestampToData(millis);
+    String dateNowFormmated = DateFormat('dd/MM/yy').format(dateTime);
+    return dateNowFormmated;
+  }
+
 }

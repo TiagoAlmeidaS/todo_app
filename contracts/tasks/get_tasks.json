@@ -1,0 +1,82 @@
+{
+  "resume": {
+    "backlog": "1",
+    "in_progress": "1",
+    "delayed": "1",
+    "completed": "1"
+  },
+  "tasks": [
+    {
+      "id": 1,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer pão com mortadela e queijo qualy",
+      "description": "Comprar as massas depois botar na batedeira",
+      "status": 0
+    },
+    {
+      "id": 2,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer maionese",
+      "description": "Fazer",
+      "status": 1
+    },
+    {
+      "id": 3,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer massagem",
+      "description": "Comprar óleo",
+      "status": 2
+    },
+    {
+      "id": 4,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer livro",
+      "description": "Comprar papel",
+      "status": 3
+    },
+    {
+      "id": 5,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer pão com mortadela e queijo qualy",
+      "description": "Comprar as massas depois botar na batedeira",
+      "status": 0
+    },
+    {
+      "id": 6,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer maionese",
+      "description": "Fazer",
+      "status": 1
+    },
+    {
+      "id": 7,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer massagem",
+      "description": "Comprar óleo",
+      "status": 2
+    },
+    {
+      "id": 8,
+      "idUser": 1,
+      "date_init": 1673370555,
+      "date_end": 1673370556,
+      "title": "Fazer livro",
+      "description": "Comprar papel",
+      "status": 3
+    }
+  ]
+}

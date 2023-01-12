@@ -22,7 +22,7 @@ mixin TodoCardNoteThemeMixin implements ITodoCardNoteTheme {
   TextStyle get headerCardNote => GoogleFonts.inter(
     fontSize: 27,
     color: colors.shadesOfLight[500],
-    fontWeight: FontWeight.w800
+    fontWeight: FontWeight.w500
   );
 
 }

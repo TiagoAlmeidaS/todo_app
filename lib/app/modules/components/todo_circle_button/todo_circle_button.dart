@@ -59,10 +59,10 @@ class _TodoCircleButtonState extends State<TodoCircleButton> {
     switch (widget.state) {
       case TodoCircleButtonState.standard:
         return Modular.get<ITodoTheme>().primaryColorLight.withOpacity(0);
-      case TodoCircleButtonState.standardFilled:
       case TodoCircleButtonState.disabled:
         return Modular.get<ITodoTheme>().primaryColorLight.withOpacity(0);
       case TodoCircleButtonState.disabledFilled:
+      case TodoCircleButtonState.standardFilled:
       default:
         return Modular.get<ITodoTheme>().primaryColorLight;
     }

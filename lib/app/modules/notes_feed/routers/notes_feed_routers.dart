@@ -8,10 +8,10 @@ class NotesFeedRouters {
     "/notes_feed/",
   );
 
-  static NavigationRouters myNotes = NavigationRouters(
+  static NavigationRouters note = NavigationRouters(
     "MyNotes",
-    "/my_notes/",
-    "/notes_feed/my_notes",
+    "/note/",
+    "/notes_feed/note/",
   );
 
 }

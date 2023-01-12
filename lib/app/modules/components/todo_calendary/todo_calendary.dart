@@ -7,10 +7,10 @@ import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 import '../todo_date_picker/todo_date_picker.dart';
 
 class TodoCalendary extends StatefulWidget {
-  const TodoCalendary({
+   const TodoCalendary({
     Key? key,
     this.padding,
-    this.margin,
+    this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
     this.status = TodoCalendaryStatus.standard,
     this.weatherStatus,
     this.temperature,

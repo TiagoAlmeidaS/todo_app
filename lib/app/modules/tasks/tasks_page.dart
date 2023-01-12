@@ -11,6 +11,7 @@ import 'package:todo_app/app/modules/components/todo_header_page/todo_header_pag
 import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/modules/components/todo_title_page/todo_title_page.dart';
 import 'package:todo_app/app/modules/tasks/pages/task/models/tasks_model.dart';
+import 'package:todo_app/app/modules/tasks/routers/tasks_routers.dart';
 import 'package:todo_app/app/modules/tasks/tasks_controller.dart';
 import 'package:todo_app/app/shared/utils/utils.dart';
 
@@ -48,13 +49,13 @@ class _TasksPageState extends State<TasksPage> {
                     firstLabel: "Todo",
                     secondLabel: "Tasks",
                     icon: LineAwesomeIcons.search,
-                    actionIcon: () {},
+                    actionIcon: () {
+                      Modular.to.pushNamed(
+                        TasksRoutes.searchTask.fullRoute,
+                      );
+                    },
                   ),
                   TodoCalendary(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
                     temperature: 24,
                     timerNow: controller.dateNowFormmated,
                     location: "Sapé - PB",
@@ -82,7 +83,9 @@ class _TasksPageState extends State<TasksPage> {
                         date: dateFormat,
                         statusTask: e.statusTask == TaskStatus.COMPLETED);
                   }),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                 ],
               );
             },

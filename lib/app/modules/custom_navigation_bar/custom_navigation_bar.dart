@@ -4,6 +4,8 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:todo_app/app/modules/notes_feed/notes_feed_page.dart';
 import 'package:todo_app/app/modules/notes_feed/routers/notes_feed_routers.dart';
+import 'package:todo_app/app/modules/profile/pages/menu_profile/menu_profile_page.dart';
+import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/modules/tasks/routers/tasks_routers.dart';
 import 'package:todo_app/app/modules/tasks/tasks_page.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
@@ -45,7 +47,7 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
           screens: const [
             NotesFeedPage(),
             TasksPage(),
-            // ProfilePage(),
+            MenuProfilePage(),
           ],
           items: _navBarsItems(),
           navBarStyle: NavBarStyle.style9,
@@ -65,6 +67,12 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
       PersistentBottomNavBarItem(
         icon: const Icon(LineAwesomeIcons.check_circle),
         title: (TasksRoutes.tasks.pageTitle),
+        activeColorPrimary: Modular.get<ITodoTheme>().primaryColorMain,
+        inactiveColorPrimary: Modular.get<ITodoTheme>().secondaryColor,
+      ),
+      PersistentBottomNavBarItem(
+        icon: const Icon(LineAwesomeIcons.user_circle),
+        title: (ProfileRouters.menuProfile.pageTitle),
         activeColorPrimary: Modular.get<ITodoTheme>().primaryColorMain,
         inactiveColorPrimary: Modular.get<ITodoTheme>().secondaryColor,
       ),

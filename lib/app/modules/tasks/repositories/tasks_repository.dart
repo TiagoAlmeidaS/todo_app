@@ -39,4 +39,16 @@ class TasksRepository implements ITasksRepository {
     }
   }
 
+  @override
+  Future<Either<TasksFailure, TasksModel>> fetchTask(String userId, String nameTask) {
+    // TODO: implement fetchTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<TasksFailure, TasksModel>> filterTasks(String userId, int dateSelect) {
+    // TODO: implement filterTasks
+    throw UnimplementedError();
+  }
+
 }

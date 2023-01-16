@@ -21,4 +21,10 @@ class ProfileRouters {
     "/menu_profile/",
     "/profile/menu_profile/",
   );
+
+  static NavigationRouters welcome = NavigationRouters(
+    "Welcome",
+    "/welcome/",
+    "/profile/welcome/",
+  );
 }

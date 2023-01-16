@@ -6,7 +6,7 @@ class MenuProfileModule extends Module {
   @override
   List<Bind> get binds => [
     Bind(
-          (i) => MenuProfileController(),
+          (i) => MenuProfileController(i.get()),
     ),
   ];
 

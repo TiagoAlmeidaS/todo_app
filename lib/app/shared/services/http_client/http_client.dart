@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/shared/services/http_client/interface/i_http_client.dart';
 import 'package:todo_app/app/shared/services/http_client/models/http_client_model.dart';
+import 'package:todo_app/app_controller.dart';
 
 import '../../utils/enum/todo_enum.dart';
 import 'errors/http_client_exception.dart';
@@ -19,6 +21,8 @@ class HttpClient implements IHttpClient {
 
     return connectivityResult != ConnectivityResult.none;
   }
+
+  String baseUrl = Modular.get<AppController>().baseUrlVariable ?? "";
 
   @override
   Future<HttpClientResponse> get(
@@ -39,7 +43,7 @@ class HttpClient implements IHttpClient {
         });
       }
       var response = await dio.get(
-        url,
+        baseUrl + url,
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
@@ -73,7 +77,7 @@ class HttpClient implements IHttpClient {
         });
       }
       var response = await dio.delete(
-        url,
+        baseUrl + url,
         queryParameters: queryParameters,
         options: options,
         cancelToken: cancelToken,
@@ -116,7 +120,8 @@ class HttpClient implements IHttpClient {
           "messageError": "Conexão instável. Verifique sua rede de internet."
         });
       }
-      var response = await dio.post(url, data: data, options: options);
+      var response =
+          await dio.post(baseUrl + url, data: data, options: options);
       return HttpClientResponse(
           response.statusCode, response.statusMessage, response.data);
     } on HttpClientException catch (e) {

@@ -3,6 +3,7 @@ import 'package:todo_app/app/shared/utils/theme/colors/i_colors_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_button_theme/i_todo_button_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_title_page_theme/i_todo_title_page_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/pages/notes_feed/my_notes/i_my_notes_theme.dart';
+import 'package:todo_app/app/shared/utils/theme/default/pages/profile/I_profile_theme.dart';
 
 import 'default/components/todo_button_menu_profile_theme/i_todo_button_menu_profile_theme.dart';
 import 'default/components/todo_calendar/i_todo_calendar_theme.dart';
@@ -28,7 +29,8 @@ abstract class ITodoTheme
         ITodoCalendarTheme,
         ITodoCardsResumeTheme,
         ITodoCardSearchTheme,
-        ITodoButtonMenuProfileTheme {
+        ITodoButtonMenuProfileTheme,
+        IProfileTheme {
   ThemeData get theme;
   TextStyle get flushbarMessageStyle;
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/components/todo_button/todo_button_component.dart';
+import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/modules/profile/pages/signup/signup_controller.dart';
 import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/shared/utils/assets/assets_utils.dart';
+import 'package:todo_app/app/shared/utils/enum/todo_enum.dart';
 
 import '../../../../shared/utils/theme/i_theme.dart';
 import '../../../components/todo_text_form_field/todo_text_form_field.dart';
@@ -34,24 +39,49 @@ class _SignupPageState extends State<SignupPage> {
             enabled: true,
             hintText: "example@gmail.com",
             rulesOnChange: controller.emailRulesOnChange,
+            keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(
             height: 8,
           ),
-          const TodoTextFormField(
+          TodoTextFormField(
             label: "Password: ",
             enabled: true,
             hintText: "123456",
+            rulesOnChange: controller.passwordRulesOnChange,
           ),
-          const TodoTextFormField(
+          TodoTextFormField(
             label: "Confirm the password: ",
             enabled: true,
-            hintText: "123456",
+            hintText: "Ex: 123456",
+            rulesOnChange: controller.confirmPasswordRulesOnChange,
           ),
           const SizedBox(
             height: 20,
           ),
-          const TodoButton(label: "Register"),
+          Observer(builder: (context) {
+            return TodoButton(
+              label: "Register",
+              onTap: () async {
+                controller.signup();
+                await controller.signupOutputObservable?.whenComplete(
+                  () => controller.signupOutputObservable?.value?.fold(
+                    (l) => TodoFlushBar(
+                      color: FlushBarColor.ERROR,
+                      message: l.message,
+                    ),
+                    (r) => Modular.to.pushNamed("/custom_navigation_bar"),
+                  ),
+                );
+              },
+              state: controller.signupOutputObservable?.status ==
+                      FutureStatus.pending
+                  ? TodoButtonState.loadingFilledDark
+                  : controller.isValidRegister
+                      ? TodoButtonState.standardFilledDark
+                      : TodoButtonState.disabled,
+            );
+          }),
           Text(
             "Register with google: ",
             style: Modular.get<ITodoTheme>().labelSignin,

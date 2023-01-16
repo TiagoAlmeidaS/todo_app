@@ -17,12 +17,14 @@ class CustomNavigationBarModule extends Module {
           (i) => NotesFeedRepositoryMock(),
         ),
         Bind(
-              (i) => TasksController(i.get()),
+          (i) => TasksController(i.get()),
         ),
         Bind(
-              (i) => TasksRepositoryMock(),
+          (i) => TasksRepositoryMock(),
         ),
-        Bind((i) => MenuProfileController())
+        Bind(
+          (i) => MenuProfileController(i.get()),
+        )
       ];
 
   @override

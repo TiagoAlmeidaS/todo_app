@@ -16,7 +16,7 @@ class SigninRepository implements ISigninRepository {
   @override
   Future<Either<ProfileFailure, SigninOutput>> signin(SigninModel signinModel) async {
     try {
-      var response = await httpClient.post("/user/login", data: signinModel.toMap());
+      var response = await httpClient.post("/users/login", data: signinModel.toMap());
       SigninOutput signinOutputModel = SigninOutput.fromMap(response.data);
       return right(signinOutputModel);
     } on HttpClientException catch (e) {

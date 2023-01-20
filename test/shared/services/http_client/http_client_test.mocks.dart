@@ -69,19 +69,6 @@ class MockHttpClient extends _i1.Mock implements _i4.HttpClient {
         returnValueForMissingStub: null,
       );
   @override
-  String get baseUrl => (super.noSuchMethod(
-        Invocation.getter(#baseUrl),
-        returnValue: '',
-      ) as String);
-  @override
-  set baseUrl(String? _baseUrl) => super.noSuchMethod(
-        Invocation.setter(
-          #baseUrl,
-          _baseUrl,
-        ),
-        returnValueForMissingStub: null,
-      );
-  @override
   _i5.Future<_i3.HttpClientResponse> get(
     String? url, {
     Map<String, dynamic>? queryParameters,

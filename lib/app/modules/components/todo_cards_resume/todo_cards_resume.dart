@@ -46,11 +46,6 @@ class _TodoCardsResumeState extends State<TodoCardsResume> {
             const SizedBox(
               width: 10,
             ),
-            cardResume(true, Modular.get<ITodoTheme>().colorsStatusTasks[3]!,
-                "Delayed", widget.valueDelayed ?? "0"),
-            const SizedBox(
-              width: 10,
-            ),
             cardResume(true, Modular.get<ITodoTheme>().colorsStatusTasks[4]!,
                 "Completed", widget.valueCompleted ?? "0"),
           ],

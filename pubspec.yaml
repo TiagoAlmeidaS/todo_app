@@ -53,6 +53,7 @@ dependencies:
   date_picker_timeline: ^1.2.3
   intl: ^0.17.0
   flutter_dotenv: ^5.0.2
+  shared_preferences: ^2.0.16
 
 dev_dependencies:
   flutter_test:

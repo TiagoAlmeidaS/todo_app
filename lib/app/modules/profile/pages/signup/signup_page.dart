@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/components/todo_button/todo_button_component.dart';
 import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
+import 'package:todo_app/app/modules/custom_navigation_bar/routers/custom_navigation_router.dart';
 import 'package:todo_app/app/modules/profile/pages/signup/signup_controller.dart';
 import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/shared/utils/assets/assets_utils.dart';
@@ -40,6 +41,7 @@ class _SignupPageState extends State<SignupPage> {
             hintText: "example@gmail.com",
             rulesOnChange: controller.emailRulesOnChange,
             keyboardType: TextInputType.emailAddress,
+            textCapitalization: TextCapitalization.none,
           ),
           const SizedBox(
             height: 8,
@@ -49,12 +51,14 @@ class _SignupPageState extends State<SignupPage> {
             enabled: true,
             hintText: "123456",
             rulesOnChange: controller.passwordRulesOnChange,
+            textCapitalization: TextCapitalization.none,
           ),
           TodoTextFormField(
             label: "Confirm the password: ",
             enabled: true,
             hintText: "Ex: 123456",
             rulesOnChange: controller.confirmPasswordRulesOnChange,
+            textCapitalization: TextCapitalization.none,
           ),
           const SizedBox(
             height: 20,
@@ -70,7 +74,9 @@ class _SignupPageState extends State<SignupPage> {
                       color: FlushBarColor.ERROR,
                       message: l.message,
                     ),
-                    (r) => Modular.to.pushNamed("/custom_navigation_bar"),
+                    (r) => Modular.to.pushNamed(
+                      CustomNavigationRouter.customNavigation.fullRoute,
+                    ),
                   ),
                 );
               },

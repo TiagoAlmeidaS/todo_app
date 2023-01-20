@@ -8,7 +8,7 @@ import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 class ProfileModule extends Module {
   @override
   List<Bind> get binds => [
-    Bind((i) => ProfileStore()),
+    Bind((i) => ProfileStore(i.get())),
   ];
 
   @override

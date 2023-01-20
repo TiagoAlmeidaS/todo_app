@@ -7,6 +7,7 @@ import 'package:todo_app/app/modules/profile/pages/signup/models/singup_model.da
 import 'package:todo_app/app/shared/business/profile/signin/signin_rules.dart';
 import 'package:todo_app/app/shared/business/rules_generics.dart';
 
+import '../../../../shared/modules/auth/store/auth_store.dart';
 import '../../errors/profile_error.dart';
 import '../../profile_store.dart';
 
@@ -16,10 +17,15 @@ part 'signup_controller.g.dart';
 class SignupController = _SignupControllerBase with _$SignupController;
 
 abstract class _SignupControllerBase with Store {
-  ISignupRepository iSignupRepository;
-  ProfileStore _profileStore;
+  final ISignupRepository iSignupRepository;
+  final ProfileStore _profileStore;
+  final AuthStore _authStore;
 
-  _SignupControllerBase(this.iSignupRepository, this._profileStore);
+  _SignupControllerBase(
+    this.iSignupRepository,
+    this._profileStore,
+    this._authStore,
+  );
 
   @observable
   SignupModel? signupModel = SignupModel();
@@ -99,6 +105,7 @@ abstract class _SignupControllerBase with Store {
   }
 
   signup() {
+    setName(_profileStore.name ?? "");
     signupOutputObservable =
         iSignupRepository.singup(signupModel!).asObservable();
 
@@ -106,9 +113,12 @@ abstract class _SignupControllerBase with Store {
       () => signupOutputObservable?.value?.fold(
         (l) => null,
         (r) {
-          _profileStore.setToken(r.token ?? "");
-          _profileStore.setEmail(r.email ?? "");
-          _profileStore.setName(r.name ?? "");
+          _authStore.fetchAuthSignIn(
+            customerName: r.name,
+            customerId: r.id,
+            token: r.token,
+            customerEmail: r.name,
+          );
         },
       ),
     );

@@ -4,9 +4,9 @@ import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/components/todo_text_form_field/todo_text_form_field_message.dart';
 import 'package:todo_app/app/modules/profile/pages/signin/interface/signup_repository_interface.dart';
 import 'package:todo_app/app/modules/profile/pages/signin/models/signin_model.dart';
-import 'package:todo_app/app/modules/profile/profile_store.dart';
 import 'package:todo_app/app/shared/business/profile/signin/signin_rules.dart';
 import 'package:todo_app/app/shared/business/rules_generics.dart';
+import 'package:todo_app/app/shared/modules/auth/store/auth_store.dart';
 
 import '../../errors/profile_error.dart';
 
@@ -16,14 +16,17 @@ part 'signin_controller.g.dart';
 class SigninController = _SigninControllerBase with _$SigninController;
 
 abstract class _SigninControllerBase with Store {
-  final ProfileStore _profileStore;
+  final AuthStore authStore;
 
   ISigninRepository iSigninRepository;
 
-  _SigninControllerBase(this.iSigninRepository, this._profileStore);
+  _SigninControllerBase(this.iSigninRepository, this.authStore);
 
   @observable
   ObservableFuture<Either<ProfileFailure, SigninOutput>>? signOutputObservable;
+
+  @observable
+  bool isHidden = false;
 
   @observable
   bool isValidEmail = false;
@@ -77,9 +80,12 @@ abstract class _SigninControllerBase with Store {
       () => signOutputObservable?.value?.fold(
         (l) => null,
         (r) {
-          _profileStore.setEmail(r.email ?? "");
-          _profileStore.setName(r.name ?? "");
-          _profileStore.setToken(r.token ?? "");
+          authStore.fetchAuthSignIn(
+            customerName: r.name,
+            customerId: r.id,
+            token: r.token,
+            customerEmail: r.email,
+          );
         },
       ),
     );

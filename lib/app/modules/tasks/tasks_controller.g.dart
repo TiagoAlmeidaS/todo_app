@@ -16,19 +16,27 @@ mixin _$TasksController on _TasksControllerBase, Store {
           Computed<dynamic>(() => super.dateNowFormmated,
               name: '_TasksControllerBase.dateNowFormmated'))
       .value;
+  Computed<dynamic>? _$customerIdComputed;
+
+  @override
+  dynamic get customerId =>
+      (_$customerIdComputed ??= Computed<dynamic>(() => super.customerId,
+              name: '_TasksControllerBase.customerId'))
+          .value;
 
   late final _$fetchTasksObservableAtom =
       Atom(name: '_TasksControllerBase.fetchTasksObservable', context: context);
 
   @override
-  ObservableFuture<Either<TasksFailure, TasksModel>>? get fetchTasksObservable {
+  ObservableFuture<Either<TasksFailure, TasksModel>?>?
+      get fetchTasksObservable {
     _$fetchTasksObservableAtom.reportRead();
     return super.fetchTasksObservable;
   }
 
   @override
   set fetchTasksObservable(
-      ObservableFuture<Either<TasksFailure, TasksModel>>? value) {
+      ObservableFuture<Either<TasksFailure, TasksModel>?>? value) {
     _$fetchTasksObservableAtom.reportWrite(value, super.fetchTasksObservable,
         () {
       super.fetchTasksObservable = value;
@@ -51,12 +59,51 @@ mixin _$TasksController on _TasksControllerBase, Store {
     });
   }
 
+  late final _$fetchResumeTasksObservableAtom = Atom(
+      name: '_TasksControllerBase.fetchResumeTasksObservable',
+      context: context);
+
+  @override
+  ObservableFuture<Either<TasksFailure, TasksResumeModel>?>?
+      get fetchResumeTasksObservable {
+    _$fetchResumeTasksObservableAtom.reportRead();
+    return super.fetchResumeTasksObservable;
+  }
+
+  @override
+  set fetchResumeTasksObservable(
+      ObservableFuture<Either<TasksFailure, TasksResumeModel>?>? value) {
+    _$fetchResumeTasksObservableAtom
+        .reportWrite(value, super.fetchResumeTasksObservable, () {
+      super.fetchResumeTasksObservable = value;
+    });
+  }
+
+  late final _$tasksResumeModelAtom =
+      Atom(name: '_TasksControllerBase.tasksResumeModel', context: context);
+
+  @override
+  TasksResumeModel get tasksResumeModel {
+    _$tasksResumeModelAtom.reportRead();
+    return super.tasksResumeModel;
+  }
+
+  @override
+  set tasksResumeModel(TasksResumeModel value) {
+    _$tasksResumeModelAtom.reportWrite(value, super.tasksResumeModel, () {
+      super.tasksResumeModel = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 fetchTasksObservable: ${fetchTasksObservable},
 tasksModel: ${tasksModel},
-dateNowFormmated: ${dateNowFormmated}
+fetchResumeTasksObservable: ${fetchResumeTasksObservable},
+tasksResumeModel: ${tasksResumeModel},
+dateNowFormmated: ${dateNowFormmated},
+customerId: ${customerId}
     ''';
   }
 }

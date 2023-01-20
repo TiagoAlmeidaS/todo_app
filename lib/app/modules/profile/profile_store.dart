@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-
+import '../../shared/services/local_storage/local_storage_service.dart';
 part 'profile_store.g.dart';
 
 @Injectable()
@@ -8,16 +8,13 @@ class ProfileStore = _ProfileStoreBase with _$ProfileStore;
 
 abstract class _ProfileStoreBase with Store {
 
-  @observable
-  String? customerName;
+  LocalStorageService localStorageService;
 
-  setName(String str) => customerName = str;
-  setEmail(String str) => emailName = str;
-  setToken(String str) => token = str;
+  _ProfileStoreBase(this.localStorageService);
 
   @observable
-  String? emailName;
+  String? name;
 
-  @observable
-  String? token;
+  setName(String str) => name = str;
+
 }

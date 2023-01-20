@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/components/todo_button/todo_button_component.dart';
 import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/modules/components/todo_text_form_field/todo_text_form_field.dart';
+import 'package:todo_app/app/modules/custom_navigation_bar/routers/custom_navigation_router.dart';
 import 'package:todo_app/app/modules/profile/pages/signin/signin_controller.dart';
 import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/shared/utils/assets/assets_utils.dart';
@@ -43,12 +44,14 @@ class _SigninPageState extends State<SigninPage> {
         const SizedBox(
           height: 5,
         ),
-        TodoTextFormField(
-          label: "Password: ",
-          enabled: true,
-          hintText: "123456",
-          rulesOnChange: controller.passwordRulesOnChange,
-        ),
+        Observer(builder: (context) {
+          return TodoTextFormField(
+            label: "Password: ",
+            enabled: true,
+            hintText: "123456",
+            rulesOnChange: controller.passwordRulesOnChange,
+          );
+        }),
         const SizedBox(
           height: 4,
         ),
@@ -75,15 +78,17 @@ class _SigninPageState extends State<SigninPage> {
                       FutureStatus.pending
                   ? TodoButtonState.loadingFilledDark
                   : controller.isValidButton
-                      ? TodoButtonState.disabled
-                      : TodoButtonState.standardFilledDark,
+                      ? TodoButtonState.standardFilledDark
+                      : TodoButtonState.disabled,
               onTap: () async {
                 controller.login();
                 await controller.signOutputObservable?.whenComplete(
                   () => controller.signOutputObservable?.value?.fold(
                     (l) => TodoFlushBar(
                         color: FlushBarColor.ERROR, message: l.message),
-                    (r) => Modular.to.pushNamed("/custom_navigation_bar"),
+                    (r) => Modular.to.pushNamed(
+                      CustomNavigationRouter.customNavigation.fullRoute,
+                    ),
                   ),
                 );
               },

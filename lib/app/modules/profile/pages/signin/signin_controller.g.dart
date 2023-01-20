@@ -36,6 +36,22 @@ mixin _$SigninController on _SigninControllerBase, Store {
     });
   }
 
+  late final _$isHiddenAtom =
+      Atom(name: '_SigninControllerBase.isHidden', context: context);
+
+  @override
+  bool get isHidden {
+    _$isHiddenAtom.reportRead();
+    return super.isHidden;
+  }
+
+  @override
+  set isHidden(bool value) {
+    _$isHiddenAtom.reportWrite(value, super.isHidden, () {
+      super.isHidden = value;
+    });
+  }
+
   late final _$isValidEmailAtom =
       Atom(name: '_SigninControllerBase.isValidEmail', context: context);
 
@@ -113,6 +129,7 @@ mixin _$SigninController on _SigninControllerBase, Store {
   String toString() {
     return '''
 signOutputObservable: ${signOutputObservable},
+isHidden: ${isHidden},
 isValidEmail: ${isValidEmail},
 isValidPassword: ${isValidPassword},
 signinModel: ${signinModel},

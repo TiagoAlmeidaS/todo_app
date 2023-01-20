@@ -16,7 +16,7 @@ class SignupRepository implements ISignupRepository {
   @override
   Future<Either<ProfileFailure, SignupOutput>> singup(SignupModel signupModel) async {
     try {
-      var response = await httpClient.post("/user/register", data: signupModel.toMap());
+      var response = await httpClient.post("/users/register", data: signupModel.toMap());
       SignupOutput signupOutputModel = SignupOutput.fromMap(response.data);
       return right(signupOutputModel);
     } on HttpClientException catch (e) {

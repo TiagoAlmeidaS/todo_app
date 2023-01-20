@@ -4,9 +4,11 @@ import 'package:todo_app/app/shared/utils/theme/colors/colors_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_button_theme/todo_button_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/components/todo_title_page_theme/todo_title_page_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/pages/notes_feed/my_notes/my_notes_theme.dart';
+import 'package:todo_app/app/shared/utils/theme/default/pages/profile/profile_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/default/pages/profile/signin/signin_theme.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 
+import 'components/todo_button_menu_profile_theme/todo_button_menu_profile_theme.dart';
 import 'components/todo_calendar/todo_calendar_theme.dart';
 import 'components/todo_card_note_theme/todo_card_note_theme.dart';
 import 'components/todo_card_search_theme/todo_card_search_theme.dart';
@@ -28,7 +30,9 @@ class DefaultTheme
         TodoTextAreaThemeMixin,
         TodoCalendarThemeMixin,
         TodoCardsResumeMixin,
-        TodoCardSearchThemeMixin
+        TodoCardSearchThemeMixin,
+        TodoButtonMenuProfileMixin,
+        ProfileThemeMixin
     implements ITodoTheme {
   @override
   ThemeData get theme => ThemeData(

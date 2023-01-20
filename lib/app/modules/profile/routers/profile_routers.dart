@@ -16,4 +16,15 @@ class ProfileRouters {
     "/signup/",
     "/profile/signup/",
   );
+  static NavigationRouters menuProfile = NavigationRouters(
+    "Menu Profile",
+    "/menu_profile/",
+    "/profile/menu_profile/",
+  );
+
+  static NavigationRouters welcome = NavigationRouters(
+    "Welcome",
+    "/welcome/",
+    "/profile/welcome/",
+  );
 }

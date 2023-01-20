@@ -2,16 +2,15 @@ import 'dart:convert';
 
 TaskModel taskModelFromMap(String str) => TaskModel.fromMap(json.decode(str));
 
-// String notesModelToMap(TaskModel data) => json.decode(data.toMap());
-
 class TaskModel {
-  final int? id;
-  final int? idUser;
-  final int? dateInit;
-  final int? dateEnd;
+  final String? id;
+  final String? idUser;
+  final String? dateInit;
+  final String? dateEnd;
   final String? title;
   final String? description;
-  final int? status;
+  final String? status;
+  final String? idProject;
   final TaskStatus? statusTask;
 
   TaskModel({
@@ -23,17 +22,19 @@ class TaskModel {
     this.description,
     this.status,
     this.statusTask,
+    this.idProject,
   });
 
   TaskModel copyWith({
-    int? id,
-    int? idUser,
-    int? dateInit,
-    int? dateEnd,
+    String? id,
+    String? idUser,
+    String? dateInit,
+    String? dateEnd,
     String? title,
     String? description,
-    int? status,
+    String? status,
     TaskStatus? statusTask,
+    String? idProject
   }) =>
       TaskModel(
         id: id ?? this.id,
@@ -44,6 +45,7 @@ class TaskModel {
         description: description ?? this.description,
         status: status ?? this.status,
         statusTask: statusTask ?? this.statusTask,
+        idProject: idProject ?? this.idProject,
       );
 
   factory TaskModel.fromMap(Map<String, dynamic> json) {
@@ -51,16 +53,13 @@ class TaskModel {
     if (json["status"] != null) {
       var status = json["status"];
       switch (status) {
-        case 0:
+        case "OPEN":
           statusTask = TaskStatus.OPEN;
           break;
-        case 1:
+        case "PROCESS":
           statusTask = TaskStatus.PROCESS;
           break;
-        case 2:
-          statusTask = TaskStatus.DELAYED;
-          break;
-        case 3:
+        case "COMPLETED":
           statusTask = TaskStatus.COMPLETED;
           break;
         default:
@@ -69,26 +68,28 @@ class TaskModel {
       }
     }
     return TaskModel(
-      id: json["id"] ?? null,
-      idUser: json["idUser"] ?? null,
-      dateInit: json["date_init"] ?? null,
-      dateEnd: json["date_end"] ?? null,
-      title: json["title"] ?? null,
-      description: json["description"] ?? null,
-      status: json["status"] ?? null,
+      id: json["id"] ?? "",
+      idUser: json["id_user"] ?? "",
+      dateInit: json["date_init"] ?? "",
+      dateEnd: json["date_end"] ?? "",
+      title: json["title"] ?? "",
+      description: json["description"] ?? "",
+      status: json["status"] ?? "",
+      idProject: json["id_project"] ?? "",
       statusTask: statusTask,
     );
   }
 
   Map<String, dynamic> toMap() => {
-        "id": id ?? null,
-        "idUser": idUser ?? null,
-        "date_init": dateInit ?? null,
-        "date_end": dateEnd ?? null,
-        "title": title ?? null,
-        "description": description ?? null,
-        "status": status ?? null,
+        "id": id ?? "",
+        "id_user": idUser ?? "",
+        "date_init": dateInit ?? "",
+        "date_end": dateEnd ?? "",
+        "title": title ?? "",
+        "description": description ?? "",
+        "status": status ?? "",
+        "id_project": status ?? "",
       };
 }
 
-enum TaskStatus { OPEN, PROCESS, DELAYED, COMPLETED }
+enum TaskStatus { OPEN, PROCESS, COMPLETED }

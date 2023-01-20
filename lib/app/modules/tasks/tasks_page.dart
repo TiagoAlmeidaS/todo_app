@@ -7,13 +7,15 @@ import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/components/todo_calendary/todo_calendary.dart';
 import 'package:todo_app/app/modules/components/todo_card_task/todo_card_task.dart';
 import 'package:todo_app/app/modules/components/todo_cards_resume/todo_cards_resume.dart';
+import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/modules/components/todo_header_page/todo_header_page.dart';
 import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/modules/components/todo_title_page/todo_title_page.dart';
 import 'package:todo_app/app/modules/tasks/pages/task/models/tasks_model.dart';
 import 'package:todo_app/app/modules/tasks/routers/tasks_routers.dart';
 import 'package:todo_app/app/modules/tasks/tasks_controller.dart';
-import 'package:todo_app/app/shared/utils/utils.dart';
+
+import '../../shared/utils/enum/todo_enum.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({Key? key}) : super(key: key);
@@ -38,10 +40,15 @@ class _TasksPageState extends State<TasksPage> {
                 return contentLoading();
               }
 
-              if (controller.fetchTasksObservable?.status ==
-                      FutureStatus.rejected ||
-                  (controller.fetchTasksObservable?.value?.isLeft() ??
-                      false)) {}
+              controller.fetchTasksObservable?.whenComplete(
+                () => controller.fetchTasksObservable?.value?.fold(
+                  (l) => TodoFlushBar(
+                    color: FlushBarColor.ERROR,
+                    message: l.message,
+                  ),
+                  (r) => null,
+                ),
+              );
 
               return Column(
                 children: [
@@ -63,10 +70,9 @@ class _TasksPageState extends State<TasksPage> {
                   ),
                   const TodoHeaderPage(label: "Resume"),
                   TodoCardsResume(
-                    valueBackLog: controller.tasksModel.resume?.backlog,
-                    valueCompleted: controller.tasksModel.resume?.completed,
-                    valueDelayed: controller.tasksModel.resume?.delayed,
-                    valueInProgress: controller.tasksModel.resume?.inProgress,
+                    valueBackLog: controller.tasksResumeModel.open.toString(),
+                    valueCompleted: controller.tasksResumeModel.completed.toString(),
+                    valueInProgress: controller.tasksResumeModel.process.toString(),
                   ),
                   const SizedBox(
                     height: 10,
@@ -76,7 +82,7 @@ class _TasksPageState extends State<TasksPage> {
                     icon: LineAwesomeIcons.plus_circle,
                   ),
                   ...?controller.tasksModel.tasks?.map((e) {
-                    var date = Utils.timestampToData(e.dateInit ?? 0);
+                    var date = DateTime.parse(e.dateInit ?? "");
                     var dateFormat = DateFormat('dd/MM/yy').format(date);
                     return TodoCardTask(
                         title: e.title,

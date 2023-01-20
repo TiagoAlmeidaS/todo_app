@@ -29,19 +29,27 @@ class _TodoButtonState extends State<TodoButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onTap?.call();
+        if (widget.state != TodoButtonState.disabled) {
+          widget.onTap?.call();
+        }
       },
       child: Container(
         alignment: Alignment.center,
         width: double.infinity,
         decoration: BoxDecoration(
-            color: _colorFill(),
+            color: widget.state == TodoButtonState.disabled
+                ? Modular.get<ITodoTheme>().shadesOfDark[100]
+                : _colorFill(),
             borderRadius: const BorderRadius.all(
               Radius.circular(
                 10,
               ),
             ),
-            border: Border.all(color: _colorOutline(), width: 1)),
+            border: Border.all(
+                color: widget.state == TodoButtonState.disabled
+                    ? Colors.transparent
+                    : _colorOutline(),
+                width: 1)),
         margin: widget.margin ??
             const EdgeInsets.symmetric(
               vertical: 20,
@@ -62,11 +70,15 @@ class _TodoButtonState extends State<TodoButton> {
               )
             : Text(
                 widget.label,
-                style: isOutline()
+                style: widget.state == TodoButtonState.disabled
                     ? Modular.get<ITodoTheme>()
                         .todoButtonTextOutline
-                        .copyWith(fontSize: widget.fontSize)
-                    : Modular.get<ITodoTheme>().todoButtonTextFilled,
+                        .copyWith(color: Colors.white)
+                    : isOutline()
+                        ? Modular.get<ITodoTheme>()
+                            .todoButtonTextOutline
+                            .copyWith(fontSize: widget.fontSize)
+                        : Modular.get<ITodoTheme>().todoButtonTextFilled,
               ),
       ),
     );
@@ -133,5 +145,6 @@ enum TodoButtonState {
   standardOutlined,
   loadingOutlined,
   standardFilledDark,
-  loadingFilledDark
+  loadingFilledDark,
+  disabled
 }

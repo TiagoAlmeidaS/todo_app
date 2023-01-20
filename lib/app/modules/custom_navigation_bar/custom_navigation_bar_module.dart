@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:todo_app/app/modules/custom_navigation_bar/custom_navigation_bar.dart';
-import 'package:todo_app/app/modules/tasks/mocks/tasks_repository_mock.dart';
+import 'package:todo_app/app/modules/profile/pages/menu_profile/menu_profile_controller.dart';
+import 'package:todo_app/app/modules/tasks/repositories/tasks_repository.dart';
 import 'package:todo_app/app/modules/tasks/tasks_controller.dart';
 
 import '../notes_feed/mocks/notes_feed_repository_mock.dart';
@@ -16,11 +17,14 @@ class CustomNavigationBarModule extends Module {
           (i) => NotesFeedRepositoryMock(),
         ),
         Bind(
-              (i) => TasksController(i.get()),
+          (i) => TasksController(i.get(), i.get()),
         ),
         Bind(
-              (i) => TasksRepositoryMock(),
+          (i) => TasksRepository(i.get()),
         ),
+        Bind(
+          (i) => MenuProfileController(i.get()),
+        )
       ];
 
   @override

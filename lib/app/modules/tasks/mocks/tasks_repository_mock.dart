@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:todo_app/app/modules/tasks/errors/tasks_errors.dart';
 import 'package:todo_app/app/modules/tasks/interfaces/tasks_repository_interface.dart';
+import 'package:todo_app/app/modules/tasks/models/tasks_resume_model.dart';
 
 import '../../../shared/utils/load_json.dart';
 import '../models/tasks_model.dart';
@@ -20,5 +21,23 @@ class TasksRepositoryMock implements ITasksRepository {
         ),
       );
     }
+  }
+
+  @override
+  Future<Either<TasksFailure, TasksModel>> fetchTask(String userId, String nameTask) {
+    // TODO: implement fetchTask
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<TasksFailure, TasksModel>> filterTasks(String userId, int dateSelect) {
+    // TODO: implement filterTasks
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<TasksFailure, TasksResumeModel>> fetchResumeTasks() {
+    // TODO: implement fetchResumeTasks
+    throw UnimplementedError();
   }
 }

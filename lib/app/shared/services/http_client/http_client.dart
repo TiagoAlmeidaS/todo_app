@@ -20,6 +20,8 @@ class HttpClient implements IHttpClient {
     return connectivityResult != ConnectivityResult.none;
   }
 
+
+
   @override
   Future<HttpClientResponse> get(
     String url, {
@@ -116,7 +118,11 @@ class HttpClient implements IHttpClient {
           "messageError": "Conexão instável. Verifique sua rede de internet."
         });
       }
-      var response = await dio.post(url, data: data, options: options);
+      var response = await dio.post(
+        url,
+        data: data,
+        options: options,
+      );
       return HttpClientResponse(
           response.statusCode, response.statusMessage, response.data);
     } on HttpClientException catch (e) {

@@ -1,15 +1,13 @@
-
-
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/tasks/errors/tasks_errors.dart';
 import 'package:todo_app/app/modules/tasks/interfaces/tasks_repository_interface.dart';
 import 'package:todo_app/app/modules/tasks/models/tasks_model.dart';
+import 'package:todo_app/app/modules/tasks/models/tasks_resume_model.dart';
+import 'package:todo_app/app/shared/modules/auth/store/auth_store.dart';
 
 import '../../shared/utils/utils.dart';
-
 
 part 'tasks_controller.g.dart';
 
@@ -17,29 +15,49 @@ part 'tasks_controller.g.dart';
 class TasksController = _TasksControllerBase with _$TasksController;
 
 abstract class _TasksControllerBase with Store {
-  ITasksRepository iTasksRepository;
+  final ITasksRepository iTasksRepository;
+  final AuthStore _authStore;
 
-  _TasksControllerBase(this.iTasksRepository){
+  _TasksControllerBase(this.iTasksRepository, this._authStore) {
+    getResumeTasks();
     getTasks();
   }
 
-  String userId = "12345";
-
   @observable
-  ObservableFuture<Either<TasksFailure, TasksModel>>?
-  fetchTasksObservable;
+  ObservableFuture<Either<TasksFailure, TasksModel>?>? fetchTasksObservable;
 
   @observable
   TasksModel tasksModel = TasksModel();
 
+  @observable
+  ObservableFuture<Either<TasksFailure, TasksResumeModel>?>?
+      fetchResumeTasksObservable;
+
+  @observable
+  TasksResumeModel tasksResumeModel = TasksResumeModel();
+
   @computed
   get dateNowFormmated => Utils.dateNowFormmated();
 
+  @computed
+  get customerId => _authStore.customerId;
+
   void getTasks() async {
-    fetchTasksObservable = iTasksRepository.fetchTasks(userId).asObservable();
+    fetchTasksObservable =
+        iTasksRepository.fetchTasks(customerId).asObservable();
 
     await fetchTasksObservable?.whenComplete(() => {
-      fetchTasksObservable?.value?.fold((l) => null, (r) => tasksModel = r)
-    });
+          fetchTasksObservable?.value?.fold((l) => null, (r) => tasksModel = r)
+        });
+  }
+
+  void getResumeTasks() async {
+    fetchResumeTasksObservable =
+        iTasksRepository.fetchResumeTasks().asObservable();
+
+    await fetchResumeTasksObservable?.whenComplete(() => {
+          fetchResumeTasksObservable?.value
+              ?.fold((l) => null, (r) => tasksResumeModel = r)
+        });
   }
 }

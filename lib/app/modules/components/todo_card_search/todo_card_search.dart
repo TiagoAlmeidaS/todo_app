@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
-import 'package:todo_app/app/shared/utils/utils.dart';
 
 class TodoCardSearch extends StatefulWidget {
   const TodoCardSearch({
@@ -14,7 +13,7 @@ class TodoCardSearch extends StatefulWidget {
     this.margin,
   }) : super(key: key);
 
-  final int? dayCreation;
+  final String? dayCreation;
   final String? title;
   final String? description;
   final TodoCardSearchStatus? state;
@@ -64,7 +63,7 @@ class _TodoCardSearchState extends State<TodoCardSearch> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        Utils.dateFormmated(widget.dayCreation ?? 0),
+                        widget.dayCreation ?? "",
                         maxLines: 1,
                         style: Modular.get<ITodoTheme>()
                             .dateCreationCardSearch
@@ -84,7 +83,7 @@ class _TodoCardSearchState extends State<TodoCardSearch> {
                         height: 2,
                       ),
                       Text(
-                        Utils.hourFormmated(widget.dayCreation ?? 0),
+                        widget.dayCreation ?? "",
                         maxLines: 1,
                         style: Modular.get<ITodoTheme>()
                             .dateCreationCardSearch

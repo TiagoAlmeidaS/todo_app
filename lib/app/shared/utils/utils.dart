@@ -25,4 +25,9 @@ class Utils {
     return dateNowFormmated;
   }
 
+  static String dateDDMMYYTimer(DateTime dateTime){
+    String dateNowFormmated = DateFormat('yyyy-MM-ddTHH:mm:ss').format(dateTime);
+    return dateNowFormmated;
+  }
+
 }

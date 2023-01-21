@@ -21,6 +21,7 @@ class TodoCalendary extends StatefulWidget {
     this.isMinBoard = false,
     this.initialSelectedTime,
     this.selectDate,
+    this.disable = false,
   }) : super(key: key);
 
   final EdgeInsets? padding;
@@ -33,8 +34,9 @@ class TodoCalendary extends StatefulWidget {
   final String? location;
   final String? srcImage;
   final bool? isMinBoard;
+  final bool? disable;
   final DateTime? initialSelectedTime;
-  final DateTime Function(DateTime?)? selectDate;
+  final void Function(DateTime?)? selectDate;
 
   @override
   State<TodoCalendary> createState() => _TodoCalendaryState();
@@ -71,7 +73,9 @@ class _TodoCalendaryState extends State<TodoCalendary> {
               DateTime.now().subtract(
                 const Duration(days: 2),
               ),
+              disabled: widget.disable ?? false,
               width: 70,
+              locale: "pt",
               controller: _controller,
               initialSelectedDate: widget.initialSelectedTime ?? DateTime.now(),
               selectionColor: Modular.get<ITodoTheme>()
@@ -81,13 +85,15 @@ class _TodoCalendaryState extends State<TodoCalendary> {
               dayTextStyle: Modular.get<ITodoTheme>().dayLabel,
               monthTextStyle: Modular.get<ITodoTheme>().monthLabel,
               dateTextStyle: Modular.get<ITodoTheme>().numberDayLabel,
-              onDateChange: (date) {
-                setState(() {
-                  _selectedValue = date;
-                  widget.selectDate!.call(_selectedValue);
-                });
-                // selectedValue(date);
-              },
+              onDateChange: (widget.disable ?? false)
+                  ? (date) {}
+                  : (date) {
+                      setState(() {
+                        _selectedValue = date;
+                        widget.selectDate!.call(date);
+                      });
+                      // selectedValue(date);
+                    },
             ),
           ),
           Container(

@@ -171,8 +171,7 @@ class _TodoCardTaskState extends State<TodoCardTask> {
         children: [
           Expanded(
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

@@ -1,12 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/modules/tasks/errors/tasks_errors.dart';
 import 'package:todo_app/app/modules/tasks/interfaces/tasks_repository_interface.dart';
 import 'package:todo_app/app/modules/tasks/models/tasks_model.dart';
 import 'package:todo_app/app/modules/tasks/models/tasks_resume_model.dart';
 import 'package:todo_app/app/modules/tasks/pages/task/interfaces/task_repository_interface.dart';
 import 'package:todo_app/app/shared/modules/auth/store/auth_store.dart';
+import 'package:todo_app/app/shared/utils/enum/todo_enum.dart';
 
 import '../../shared/utils/utils.dart';
 
@@ -18,10 +20,9 @@ class TasksController = _TasksControllerBase with _$TasksController;
 abstract class _TasksControllerBase with Store {
   final ITasksRepository iTasksRepository;
   final ITaskRepository iTaskRepository;
-  final AuthStore _authStore;
 
   _TasksControllerBase(
-      this.iTasksRepository, this._authStore, this.iTaskRepository) {
+      this.iTasksRepository, this.iTaskRepository) {
     getResumeTasks();
     getTasks();
   }
@@ -40,21 +41,31 @@ abstract class _TasksControllerBase with Store {
   ObservableFuture<Either<TasksFailure, void>?>? deleteTasksObservable;
 
   @observable
+  DateTime selected = DateTime.now();
+
+  @observable
+  ObservableFuture<Either<TasksFailure, TasksModel>?>?
+      tasksByDayTasksObservable;
+
+  @observable
   TasksResumeModel tasksResumeModel = TasksResumeModel();
 
   @computed
   get dateNowFormmated => Utils.dateNowFormmated();
 
-  @computed
-  get customerId => _authStore.customerId;
 
   void getTasks() async {
     fetchTasksObservable =
-        iTasksRepository.fetchTasks(customerId).asObservable();
+        iTasksRepository.fetchTasks(Modular.get<AuthStore>().customerId).asObservable();
 
-    await fetchTasksObservable?.whenComplete(() => {
-          fetchTasksObservable?.value?.fold((l) => null, (r) => tasksModel = r)
-        });
+    await fetchTasksObservable?.whenComplete(
+      () => {
+        fetchTasksObservable?.value?.fold(
+          (l) => null,
+          (r) => tasksModel = r,
+        )
+      },
+    );
   }
 
   void getResumeTasks() async {
@@ -65,6 +76,20 @@ abstract class _TasksControllerBase with Store {
           fetchResumeTasksObservable?.value
               ?.fold((l) => null, (r) => tasksResumeModel = r)
         });
+  }
+
+  void getFilterByDay(DateTime? dateTime) {
+    selected = dateTime!;
+    var dateTimeString = Utils.dateDDMMYYTimer(dateTime);
+    fetchTasksObservable =
+        iTasksRepository.filterTasks(dateTimeString).asObservable();
+
+    fetchTasksObservable?.whenComplete(
+      () => fetchTasksObservable?.value?.fold(
+        (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
+        (r) => tasksModel = r,
+      ),
+    );
   }
 
   void deleteTask(String? id) {

@@ -9,6 +9,7 @@ import 'package:todo_app/app/modules/splash/splash_module.dart';
 import 'package:todo_app/app/modules/tasks/routers/tasks_routers.dart';
 import 'package:todo_app/app/modules/tasks/tasks_module.dart';
 import 'package:todo_app/app/shared/modules/auth/repositories/auth_local_repository.dart';
+import 'package:todo_app/app/shared/modules/auth/repositories/auth_repository.dart';
 import 'package:todo_app/app/shared/modules/auth/store/auth_store.dart';
 import 'package:todo_app/app/shared/services/http_client/dio/dio_custom.dart';
 import 'package:todo_app/app/shared/services/http_client/http_client.dart';
@@ -27,8 +28,9 @@ class AppModule extends Module {
         Bind<ITodoTheme>((i) => DefaultTheme()),
         Bind((i) => HttpClient(i.get())),
         Bind((i) => LocalStorageService()),
+        Bind((i) => AuthRepository(i.get())),
         Bind((i) => AuthLocalRepository(i.get())),
-        Bind((i) => AuthStore(i.get(), i.get())),
+        Bind((i) => AuthStore(i.get(), i.get(), i.get())),
         Bind((i) => ProfileStore(i.get())),
       ];
 

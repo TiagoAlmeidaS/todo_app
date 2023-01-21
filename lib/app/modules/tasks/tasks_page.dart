@@ -9,7 +9,6 @@ import 'package:todo_app/app/modules/components/todo_card_task/todo_card_task.da
 import 'package:todo_app/app/modules/components/todo_cards_resume/todo_cards_resume.dart';
 import 'package:todo_app/app/modules/components/todo_flush_bar/todo_flush_bar.dart';
 import 'package:todo_app/app/modules/components/todo_header_page/todo_header_page.dart';
-import 'package:todo_app/app/modules/components/todo_shimmer/todo_shimmer.dart';
 import 'package:todo_app/app/modules/components/todo_title_page/todo_title_page.dart';
 import 'package:todo_app/app/modules/tasks/pages/task/models/tasks_model.dart';
 import 'package:todo_app/app/modules/tasks/routers/tasks_routers.dart';
@@ -34,10 +33,6 @@ class _TasksPageState extends State<TasksPage> {
         child: SingleChildScrollView(
           child: Observer(
             builder: (context) {
-              if (controller.fetchTasksObservable?.status ==
-                  FutureStatus.pending) {
-                return contentLoading();
-              }
 
               controller.fetchTasksObservable?.whenComplete(
                 () => controller.fetchTasksObservable?.value?.fold(
@@ -66,15 +61,25 @@ class _TasksPageState extends State<TasksPage> {
                     timerNow: controller.dateNowFormmated,
                     location: "Sapé - PB",
                     isMinBoard: true,
+                    initialSelectedTime: controller.selected,
+                    selectDate: (selectedDate) =>
+                        controller.getFilterByDay(selectedDate!),
                   ),
                   const TodoHeaderPage(label: "Resume"),
-                  TodoCardsResume(
-                    valueBackLog: controller.tasksResumeModel.open.toString(),
-                    valueCompleted:
-                        controller.tasksResumeModel.completed.toString(),
-                    valueInProgress:
-                        controller.tasksResumeModel.process.toString(),
-                  ),
+                  if (controller.fetchResumeTasksObservable?.status ==
+                      FutureStatus.pending) ...{
+                    const TodoCardsResume(
+                      status: TodoCardsResumeStatus.loading,
+                    ),
+                  } else ...{
+                    TodoCardsResume(
+                      valueBackLog: controller.tasksResumeModel.open.toString(),
+                      valueCompleted:
+                          controller.tasksResumeModel.completed.toString(),
+                      valueInProgress:
+                          controller.tasksResumeModel.process.toString(),
+                    ),
+                  },
                   const SizedBox(
                     height: 10,
                   ),
@@ -89,6 +94,9 @@ class _TasksPageState extends State<TasksPage> {
                       },
                     ),
                   ),
+                  if(controller.fetchTasksObservable?.status == FutureStatus.pending)...{
+                    tasksLoading()
+                  },
                   ...?controller.tasksModel.tasks?.map((e) {
                     var date = DateTime.parse(e.dateInit ?? "");
                     var dateFormat = DateFormat('dd/MM/yy').format(date);
@@ -107,7 +115,8 @@ class _TasksPageState extends State<TasksPage> {
                         controller.deleteTask(e.id),
                         controller.deleteTasksObservable?.whenComplete(
                           () => controller.deleteTasksObservable?.value?.fold(
-                            (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
+                            (l) => TodoFlushBar(
+                                color: FlushBarColor.ERROR, message: l.message),
                             (r) => null,
                           ),
                         ),
@@ -129,56 +138,18 @@ class _TasksPageState extends State<TasksPage> {
     ));
   }
 
-  Widget contentLoading() {
-    return SingleChildScrollView(
-      child: Column(
-        children: const [
-          TodoShimmer(
-            child: TodoCalendary(
-              margin: EdgeInsets.symmetric(
-                vertical: 10,
-                horizontal: 20,
-              ),
-              temperature: 24,
-              location: "Sapé - PB",
-              isMinBoard: true,
-            ),
-          ),
-          TodoShimmer(
-            child: TodoHeaderPage(
-              label: "Carregando...",
-            ),
-          ),
-          TodoShimmer(
-            child: TodoCardsResume(),
-          ),
-          TodoShimmer(
-            child: TodoHeaderPage(
-              label: "Carregando...",
-            ),
-          ),
-          TodoShimmer(
-            child: TodoCardTask(
-              title: "Carregando...",
-            ),
-          ),
-          TodoShimmer(
-            child: TodoCardTask(
-              title: "Carregando...",
-            ),
-          ),
-          TodoShimmer(
-            child: TodoCardTask(
-              title: "Carregando...",
-            ),
-          ),
-          TodoShimmer(
-            child: TodoCardTask(
-              title: "Carregando...",
-            ),
-          ),
-        ],
-      ),
+  Widget tasksLoading() {
+
+    var list = List.generate(10, (index) => 0);
+
+    return Column(
+      children: [
+        ...list.map((e) {
+          return const TodoCardTask(
+            state: TodoCardTaskState.loading,
+          );
+        })
+      ],
     );
   }
 }

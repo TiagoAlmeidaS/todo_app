@@ -120,10 +120,11 @@ class _TaskPageState extends State<TaskPage> {
                     ),
                   ),
                   TodoCalendary(
+                    disable: controller.isVisualization,
                     isMinBoard: true,
                     timerNow: controller.timerNowFormmated,
                     initialSelectedTime: controller.dateInitModel,
-                    selectDate: (selectedDate) =>
+                    selectDate: controller.isVisualization ? (selectedDate) {} : (selectedDate) =>
                         controller.setDateEnd(selectedDate!),
                   ),
                   const SizedBox(
@@ -156,6 +157,14 @@ class _TaskPageState extends State<TaskPage> {
                       () => controller.saveTaskObservable?.value?.fold(
                         (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
                         (r) => Modular.to.pop(),
+                      ),
+                    );
+                  } else {
+                    controller.updateTask(controller.taskModel.id ?? "");
+                    controller.saveTaskObservable?.whenComplete(
+                          () => controller.saveTaskObservable?.value?.fold(
+                            (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
+                            (r) => Modular.to.pop(),
                       ),
                     );
                   }

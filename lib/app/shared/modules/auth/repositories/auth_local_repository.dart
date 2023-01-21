@@ -15,12 +15,12 @@ class AuthLocalRepository {
       Map<String, dynamic>? localData =
       await _localStorageService.get('auth_options');
       if (localData == null || localData.isEmpty) {
-        return left(AuthFailure(900, 'Erro ao recuperar os dados', {}));
+        return left(AuthFailure(statusCode: 900, statusMessage: 'Erro ao recuperar os dados', data: {}));
       }
       AuthSignInModel model = AuthSignInModel.fromMap(localData);
       return right(model);
     } catch (e) {
-      return left(AuthFailure(900, 'Erro ao recuperar os dados', {}));
+      return left(AuthFailure(statusCode: 900, statusMessage: 'Erro ao recuperar os dados', data: {}));
     }
   }
 }

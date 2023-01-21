@@ -12,9 +12,9 @@ class TaskRepository implements ITaskRepository {
   TaskRepository(this.httpClient);
 
   @override
-  Future<Either<TasksFailure, void>> newTask(TaskInput taskInput) async {
+  Future<Either<TasksFailure, int>> newTask(TaskInput taskInput) async {
     try {
-      var response = await httpClient.post("/tasks", data: taskInput.toMap());
+      var response = await httpClient.post("/tasks", data: taskInput.toMapSave());
       return right(response.data);
     } on HttpClientException catch (e) {
       String message = e.data['messageError'] ??
@@ -36,13 +36,13 @@ class TaskRepository implements ITaskRepository {
   }
 
   @override
-  Future<Either<TasksFailure, void>> updateTask(TaskInput taskInput, String id) async {
+  Future<Either<TasksFailure, int>> updateTask(TaskInput taskInput, String id) async {
     try {
-      var response = await httpClient.put("/tasks/$id", data: taskInput.toMap());
-      return right(response.data);
+      var response = await httpClient.put("/tasks/$id", data: taskInput.toMapEdit());
+      return right(response.statusCode ?? 200);
     } on HttpClientException catch (e) {
       String message = e.data['messageError'] ??
-          'Erro ao tentar criar uma tarefa';
+          'Erro ao tentar editar uma tarefa';
       int statusCode = e.statusCode ?? 400;
       return left(
         TasksFailure(
@@ -53,14 +53,14 @@ class TaskRepository implements ITaskRepository {
     } catch (e) {
       return left(
         TasksFailure(
-          message: 'Erro ao tentar criar uma tarefa',
+          message: 'Erro ao tentar editar uma tarefa',
         ),
       );
     }
   }
 
   @override
-  Future<Either<TasksFailure, void>> deleteTask(String idTask) async {
+  Future<Either<TasksFailure, int>> deleteTask(String idTask) async {
     try {
       var response = await httpClient.delete("/tasks/$idTask");
       return right(response.data);

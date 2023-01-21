@@ -5,9 +5,10 @@ class TaskInput {
   final String? dateInit;
   final String? dateEnd;
   final String? idProject;
+  final String? status;
 
   TaskInput({this.title, this.description, this.dateInit, this.dateEnd,
-    this.idProject});
+    this.idProject, this.status});
 
   TaskInput copyWith({
     String? title,
@@ -15,6 +16,7 @@ class TaskInput {
     String? dateInit,
     String? dateEnd,
     String? idProject,
+    String? status,
   }) =>
       TaskInput(
         title: title ?? this.title,
@@ -22,6 +24,7 @@ class TaskInput {
         dateInit: dateInit ?? this.dateInit,
         dateEnd: dateEnd ?? this.dateEnd,
         idProject: idProject ?? this.idProject,
+        status: status ?? this.status,
       );
 
   factory TaskInput.fromMap(Map<String, dynamic> json) {
@@ -34,11 +37,20 @@ class TaskInput {
     );
   }
 
-  Map<String, dynamic> toMap() => {
+  Map<String, dynamic> toMapSave() => {
     "date_init": dateInit ?? "",
     "date_end": dateEnd ?? "",
     "title": title ?? "",
     "description": description ?? "",
     "id_project": idProject ?? "",
+  };
+
+  Map<String, dynamic> toMapEdit() => {
+    "date_init": dateInit ?? "",
+    "date_end": dateEnd ?? "",
+    "title": title ?? "",
+    "description": description ?? "",
+    "id_project": idProject ?? "",
+    "status": status ?? "",
   };
 }

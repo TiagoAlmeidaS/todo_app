@@ -30,14 +30,14 @@ class TasksRepositoryMock implements ITasksRepository {
   }
 
   @override
-  Future<Either<TasksFailure, TasksModel>> filterTasks(String userId, int dateSelect) {
-    // TODO: implement filterTasks
+  Future<Either<TasksFailure, TasksResumeModel>> fetchResumeTasks() {
+    // TODO: implement fetchResumeTasks
     throw UnimplementedError();
   }
 
   @override
-  Future<Either<TasksFailure, TasksResumeModel>> fetchResumeTasks() {
-    // TODO: implement fetchResumeTasks
+  Future<Either<TasksFailure, TasksModel>> filterTasks(String dateSelect) {
+    // TODO: implement filterTasks
     throw UnimplementedError();
   }
 }

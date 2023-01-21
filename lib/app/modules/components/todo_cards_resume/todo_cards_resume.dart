@@ -56,29 +56,59 @@ class _TodoCardsResumeState extends State<TodoCardsResume> {
 
   Widget cardResume(
       bool isMin, Color colorCard, String labelCard, String valueCard) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            stops: const [0.05, 0.05], colors: [colorCard, Colors.white]),
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color:
-                Modular.get<ITodoTheme>().shadesOfDark[500]!.withOpacity(0.16),
-            offset: const Offset(0, 2),
-            blurRadius: 2,
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Container(
-          width: isMin ? 100 : 150,
-          color: Colors.white,
-          child: widget.status == TodoCardsResumeStatus.loading
-              ? const TodoShimmer()
-              : Column(
+    return widget.status == TodoCardsResumeStatus.loading
+        ? TodoShimmer(
+            child: Container(
+              width: 150,
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Carregando...",
+                    style: Modular.get<ITodoTheme>()
+                        .labelCardsResume
+                        .copyWith(fontSize: 14, color: colorCard),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "Carregando...",
+                    style: Modular.get<ITodoTheme>()
+                        .labelCardsResume
+                        .copyWith(fontSize: 14, color: colorCard),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ),
+          )
+        : Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  stops: const [0.05, 0.05], colors: [colorCard, Colors.white]),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(12),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Modular.get<ITodoTheme>()
+                      .shadesOfDark[500]!
+                      .withOpacity(0.16),
+                  offset: const Offset(0, 2),
+                  blurRadius: 2,
+                ),
+              ],
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Container(
+                width: isMin ? 100 : 150,
+                color: Colors.white,
+                child: Column(
                   crossAxisAlignment: isMin
                       ? CrossAxisAlignment.center
                       : CrossAxisAlignment.end,
@@ -118,7 +148,7 @@ class _TodoCardsResumeState extends State<TodoCardsResume> {
                           ),
                         ],
                 )),
-    );
+          );
   }
 }
 

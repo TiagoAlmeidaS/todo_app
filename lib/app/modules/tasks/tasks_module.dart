@@ -11,7 +11,7 @@ class TasksModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => TaskRepository(i.get())),
-        Bind((i) => TasksController(i.get(), i.get(), i.get())),
+        Bind((i) => TasksController(i.get(), i.get())),
         Bind((i) => TasksRepository(i.get())),
       ];
 

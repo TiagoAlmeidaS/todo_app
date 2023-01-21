@@ -81,12 +81,21 @@ abstract class _TaskControllerBase with Store {
     return TodoTextInputMessage.none;
   }
 
-  initTaskModel(TaskModel? taskModel, bool? isView) {
+  initTaskModel(TaskModel? task, bool? isView) {
     isVisualization = isView ?? false;
-    dateInitModel =
-        DateTime.parse(taskModel?.dateEnd ?? DateTime.now().toString());
-    titleController.text = taskModel?.title ?? "";
-    descriptionController.text = taskModel?.description ?? "";
+    dateInitModel = DateTime.parse(task?.dateEnd ?? DateTime.now().toString());
+    titleController.text = task?.title ?? "";
+    descriptionController.text = task?.description ?? "";
+    taskModel = taskModel.copyWith(
+      id: task?.id,
+      idUser: task?.idUser,
+      status: task?.status,
+      title: task?.title,
+      dateInit: task?.dateInit,
+      dateEnd: task?.dateEnd,
+      idProject: task?.idProject,
+      description: task?.description,
+    );
   }
 
   deleteTask() {
@@ -101,7 +110,25 @@ abstract class _TaskControllerBase with Store {
     );
   }
 
-  updateTask() {}
+  updateTask(String idTask) {
+    taskInput = taskInput.copyWith(
+        title: taskModel.title,
+        description: descriptionController.text,
+        idProject: taskModel.idProject,
+        dateEnd: dateSeleted.toString(),
+        dateInit: taskModel.dateInit,
+        status: taskModel.status);
+
+    saveTaskObservable =
+        iTaskRepository.updateTask(taskInput, idTask).asObservable();
+
+    saveTaskObservable?.whenComplete(
+      () => saveTaskObservable?.value?.fold(
+        (l) => null,
+        (r) => tasksController.getTasks(),
+      ),
+    );
+  }
 
   saveTask() {
     taskInput = taskInput.copyWith(

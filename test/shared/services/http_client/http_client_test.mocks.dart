@@ -161,4 +161,32 @@ class MockHttpClient extends _i1.Mock implements _i4.HttpClient {
           ),
         )),
       ) as _i5.Future<_i3.HttpClientResponse>);
+  @override
+  _i5.Future<_i3.HttpClientResponse> put(
+    String? url, {
+    dynamic data,
+    _i2.Options? options,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #put,
+          [url],
+          {
+            #data: data,
+            #options: options,
+          },
+        ),
+        returnValue:
+            _i5.Future<_i3.HttpClientResponse>.value(_FakeHttpClientResponse_1(
+          this,
+          Invocation.method(
+            #put,
+            [url],
+            {
+              #data: data,
+              #options: options,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i3.HttpClientResponse>);
 }

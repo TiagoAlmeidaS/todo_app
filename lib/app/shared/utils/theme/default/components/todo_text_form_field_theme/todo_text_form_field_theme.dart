@@ -9,6 +9,7 @@ mixin TodoTextFormFieldMixin implements ITodoTheme {
   TextStyle get labelTodoTextFormField => GoogleFonts.inter(
     fontSize: 18,
     color: colors.shadesOfDark[500],
+    fontWeight: FontWeight.w600
   );
 
   @override

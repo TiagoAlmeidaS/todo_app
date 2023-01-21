@@ -79,6 +79,24 @@ mixin _$TasksController on _TasksControllerBase, Store {
     });
   }
 
+  late final _$deleteTasksObservableAtom = Atom(
+      name: '_TasksControllerBase.deleteTasksObservable', context: context);
+
+  @override
+  ObservableFuture<Either<TasksFailure, void>?>? get deleteTasksObservable {
+    _$deleteTasksObservableAtom.reportRead();
+    return super.deleteTasksObservable;
+  }
+
+  @override
+  set deleteTasksObservable(
+      ObservableFuture<Either<TasksFailure, void>?>? value) {
+    _$deleteTasksObservableAtom.reportWrite(value, super.deleteTasksObservable,
+        () {
+      super.deleteTasksObservable = value;
+    });
+  }
+
   late final _$tasksResumeModelAtom =
       Atom(name: '_TasksControllerBase.tasksResumeModel', context: context);
 
@@ -101,6 +119,7 @@ mixin _$TasksController on _TasksControllerBase, Store {
 fetchTasksObservable: ${fetchTasksObservable},
 tasksModel: ${tasksModel},
 fetchResumeTasksObservable: ${fetchResumeTasksObservable},
+deleteTasksObservable: ${deleteTasksObservable},
 tasksResumeModel: ${tasksResumeModel},
 dateNowFormmated: ${dateNowFormmated},
 customerId: ${customerId}

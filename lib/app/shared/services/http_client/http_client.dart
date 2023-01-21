@@ -139,4 +139,41 @@ class HttpClient implements IHttpClient {
       );
     }
   }
+
+  Future<HttpClientResponse> put(
+      String url, {
+        dynamic data,
+        Options? options,
+      }) async {
+    try {
+      if (!(await _checkConnectivity)) {
+        TodoFlushBar(
+          color: FlushBarColor.ERROR,
+          message: 'Conexão instável. Verifique sua rede de internet.',
+        );
+        throw HttpClientException(999, "Sem conexão", {
+          "messageError": "Conexão instável. Verifique sua rede de internet."
+        });
+      }
+      var response = await dio.put(
+        url,
+        data: data,
+        options: options,
+      );
+      return HttpClientResponse(
+          response.statusCode, response.statusMessage, response.data);
+    } on HttpClientException catch (e) {
+      throw HttpClientException(e.statusCode, e.statusMessage, e.data);
+    } on DioError catch (e) {
+      log(e.message);
+      throw HttpClientException(
+          e.response?.statusCode, e.response?.statusMessage, e.response?.data);
+    } catch (e) {
+      throw HttpClientException(
+        400,
+        'Erro genérico',
+        {},
+      );
+    }
+  }
 }

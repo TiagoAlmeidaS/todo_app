@@ -6,7 +6,7 @@ class TaskModel {
   final String? id;
   final String? idUser;
   final String? dateInit;
-  final String? dateEnd;
+  late final String? dateEnd;
   final String? title;
   final String? description;
   final String? status;
@@ -91,5 +91,7 @@ class TaskModel {
         "id_project": status ?? "",
       };
 }
+
+
 
 enum TaskStatus { OPEN, PROCESS, COMPLETED }

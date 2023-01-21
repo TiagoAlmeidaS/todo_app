@@ -130,7 +130,8 @@ class _TodoDatePickerState extends State<TodoDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
       height: widget.height,
       child: ListView.builder(
         itemCount: widget.daysCount,

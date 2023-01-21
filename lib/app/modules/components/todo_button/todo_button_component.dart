@@ -92,8 +92,12 @@ class _TodoButtonState extends State<TodoButton> {
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
       case TodoButtonState.standardFilledDark:
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
+      case TodoButtonState.loadingFilledSucess:
+        return Modular.get<ITodoTheme>().colorScheme.success;
       case TodoButtonState.standardOutlined:
         return Modular.get<ITodoTheme>().primaryColorMain.withOpacity(0);
+      case TodoButtonState.fillSucess:
+        return Modular.get<ITodoTheme>().colorScheme.success;
       default:
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
     }
@@ -105,10 +109,14 @@ class _TodoButtonState extends State<TodoButton> {
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
       case TodoButtonState.loadingFilledDark:
         return Modular.get<ITodoTheme>().shadesOfLight[100]!;
+      case TodoButtonState.loadingFilledSucess:
+        return Modular.get<ITodoTheme>().colorScheme.success;
       case TodoButtonState.standardFilledDark:
         return Modular.get<ITodoTheme>().shadesOfLight[100]!;
       case TodoButtonState.standardOutlined:
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
+      case TodoButtonState.fillSucess:
+        return Modular.get<ITodoTheme>().colorScheme.success;
       default:
         return Modular.get<ITodoTheme>().shadesOfDark[500]!;
     }
@@ -119,6 +127,8 @@ class _TodoButtonState extends State<TodoButton> {
       case TodoButtonState.loadingOutlined:
         return true;
       case TodoButtonState.loadingFilledDark:
+        return true;
+      case TodoButtonState.loadingFilledSucess:
         return true;
       case TodoButtonState.standardFilledDark:
       case TodoButtonState.standardOutlined:
@@ -146,5 +156,7 @@ enum TodoButtonState {
   loadingOutlined,
   standardFilledDark,
   loadingFilledDark,
+  fillSucess,
+  loadingFilledSucess,
   disabled
 }

@@ -26,7 +26,6 @@ class TasksPage extends StatefulWidget {
 
 class _TasksPageState extends State<TasksPage> {
   var controller = Modular.get<TasksController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,23 +70,49 @@ class _TasksPageState extends State<TasksPage> {
                   const TodoHeaderPage(label: "Resume"),
                   TodoCardsResume(
                     valueBackLog: controller.tasksResumeModel.open.toString(),
-                    valueCompleted: controller.tasksResumeModel.completed.toString(),
-                    valueInProgress: controller.tasksResumeModel.process.toString(),
+                    valueCompleted:
+                        controller.tasksResumeModel.completed.toString(),
+                    valueInProgress:
+                        controller.tasksResumeModel.process.toString(),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const TodoHeaderPage(
+                  TodoHeaderPage(
                     label: "Tasks",
                     icon: LineAwesomeIcons.plus_circle,
+                    actionIcon: () => Modular.to.pushNamed(
+                      TasksRoutes.task.fullRoute,
+                      arguments: {
+                        'taskModel': null,
+                        'isVisualization': false,
+                      },
+                    ),
                   ),
                   ...?controller.tasksModel.tasks?.map((e) {
                     var date = DateTime.parse(e.dateInit ?? "");
                     var dateFormat = DateFormat('dd/MM/yy').format(date);
                     return TodoCardTask(
-                        title: e.title,
-                        date: dateFormat,
-                        statusTask: e.statusTask == TaskStatus.COMPLETED);
+                      title: e.title,
+                      date: dateFormat,
+                      statusTask: e.statusTask == TaskStatus.COMPLETED,
+                      onTapCard: () => Modular.to.pushNamed(
+                        TasksRoutes.task.fullRoute,
+                        arguments: {
+                          'taskModel': e,
+                          'isVisualization': true,
+                        },
+                      ),
+                      onTapDelete: () => {
+                        controller.deleteTask(e.id),
+                        controller.deleteTasksObservable?.whenComplete(
+                          () => controller.deleteTasksObservable?.value?.fold(
+                            (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
+                            (r) => null,
+                          ),
+                        ),
+                      },
+                    );
                   }),
                   const SizedBox(
                     height: 20,

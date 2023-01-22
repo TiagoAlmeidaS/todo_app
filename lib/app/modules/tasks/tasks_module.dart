@@ -28,6 +28,10 @@ class TasksModule extends Module {
         ModuleRoute(
           TasksRoutes.task.shortRoute,
           module: TaskModule(),
-        )
+        ),
+        ModuleRoute(
+          TasksRoutes.searchTask.shortRoute,
+          module: SearchTaskModule(),
+        ),
       ];
 }

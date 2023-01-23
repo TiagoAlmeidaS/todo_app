@@ -34,7 +34,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerId = "";
 
-  @action
   setCustomerId(String? value) {
     customerId = value ?? "";
   }
@@ -42,7 +41,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerName = "";
 
-  @action
   setCustomerName(String? value) {
     customerName = value ?? "";
   }
@@ -50,7 +48,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerEmail = "";
 
-  @action
   setCustomerEmail(String? value) {
     customerEmail = value ?? "";
   }
@@ -61,7 +58,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   bool isValidToken = false;
 
-  @action
   setAccessToken(String? value) {
     token = value ?? "";
   }
@@ -106,7 +102,6 @@ abstract class _AuthStoreBase with Store {
           String newToken = await refreshToken(r);
           setCustomerId(r.customerId);
           setAccessToken(newToken);
-          setCustomerId(r.customerId);
           setCustomerEmail(r.email);
           setCustomerName(r.customerName);
         },
@@ -128,7 +123,6 @@ abstract class _AuthStoreBase with Store {
       customerName: customerName,
     );
 
-    setCustomerId(authSignInModel.customerId);
     setAccessToken(authSignInModel.token);
     setCustomerId(authSignInModel.customerId);
     setCustomerEmail(authSignInModel.email);

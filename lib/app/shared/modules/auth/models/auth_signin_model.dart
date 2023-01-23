@@ -39,7 +39,7 @@ class AuthSignInModel {
       );
 
   Map<String, dynamic> toMap() => {
-        "customer_id": customerId ?? "",
+        "id": customerId ?? "",
         "token": token ?? "",
         "email": email ?? "",
         "name": customerName ?? "",

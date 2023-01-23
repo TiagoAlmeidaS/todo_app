@@ -206,53 +206,6 @@ mixin _$AuthStore on _AuthStoreBase, Store {
         .run(() => super.refreshToken(authSignInModel));
   }
 
-  late final _$_AuthStoreBaseActionController =
-      ActionController(name: '_AuthStoreBase', context: context);
-
-  @override
-  dynamic setCustomerId(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerId');
-    try {
-      return super.setCustomerId(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setCustomerName(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerName');
-    try {
-      return super.setCustomerName(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setCustomerEmail(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerEmail');
-    try {
-      return super.setCustomerEmail(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setAccessToken(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setAccessToken');
-    try {
-      return super.setAccessToken(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
   @override
   String toString() {
     return '''

@@ -124,8 +124,10 @@ class _TaskPageState extends State<TaskPage> {
                     isMinBoard: true,
                     timerNow: controller.timerNowFormmated,
                     initialSelectedTime: controller.dateInitModel,
-                    selectDate: controller.isVisualization ? (selectedDate) {} : (selectedDate) =>
-                        controller.setDateEnd(selectedDate!),
+                    selectDate: controller.isVisualization
+                        ? (selectedDate) {}
+                        : (selectedDate) =>
+                            controller.setDateEnd(selectedDate!),
                   ),
                   const SizedBox(
                     height: 10,
@@ -150,21 +152,23 @@ class _TaskPageState extends State<TaskPage> {
           ? [
               TodoButton(
                 label: "Salvar",
-                onTap: () {
+                onTap: () async {
                   if (widget.taskModel == null) {
-                    controller.saveTask();
-                    controller.saveTaskObservable?.whenComplete(
+                    await controller.saveTask();
+                    await controller.saveTaskObservable?.whenComplete(
                       () => controller.saveTaskObservable?.value?.fold(
-                        (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
+                        (l) => TodoFlushBar(
+                            color: FlushBarColor.ERROR, message: l.message),
                         (r) => Modular.to.pop(),
                       ),
                     );
                   } else {
                     controller.updateTask(controller.taskModel.id ?? "");
                     controller.saveTaskObservable?.whenComplete(
-                          () => controller.saveTaskObservable?.value?.fold(
-                            (l) => TodoFlushBar(color: FlushBarColor.ERROR, message: l.message),
-                            (r) => Modular.to.pop(),
+                      () => controller.saveTaskObservable?.value?.fold(
+                        (l) => TodoFlushBar(
+                            color: FlushBarColor.ERROR, message: l.message),
+                        (r) => Modular.to.pop(),
                       ),
                     );
                   }
@@ -186,10 +190,15 @@ class _TaskPageState extends State<TaskPage> {
           : [
               TodoButton(
                 label: "Finalizar tarefa",
-                onTap: () {
-                  if (widget.taskModel == null) {
-                    controller.saveTask();
-                  }
+                onTap: () async {
+                  await controller.completedTask(controller.taskModel);
+                  await controller.saveTaskObservable?.whenComplete(
+                    () => controller.saveTaskObservable?.value?.fold(
+                      (l) => TodoFlushBar(
+                          color: FlushBarColor.ERROR, message: l.message),
+                      (r) => Modular.to.pop(),
+                    ),
+                  );
                 },
                 state: (controller.saveTaskObservable?.status ==
                         FutureStatus.pending)

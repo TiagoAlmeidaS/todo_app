@@ -20,9 +20,10 @@ class TasksController = _TasksControllerBase with _$TasksController;
 abstract class _TasksControllerBase with Store {
   final ITasksRepository iTasksRepository;
   final ITaskRepository iTaskRepository;
+  final AuthStore _authStore;
 
   _TasksControllerBase(
-      this.iTasksRepository, this.iTaskRepository) {
+      this.iTasksRepository, this.iTaskRepository, this._authStore) {
     getResumeTasks();
     getTasks();
   }
@@ -56,7 +57,7 @@ abstract class _TasksControllerBase with Store {
 
   void getTasks() async {
     fetchTasksObservable =
-        iTasksRepository.fetchTasks(Modular.get<AuthStore>().customerId).asObservable();
+        iTasksRepository.fetchTasks(_authStore.customerId).asObservable();
 
     await fetchTasksObservable?.whenComplete(
       () => {

@@ -15,7 +15,7 @@ class TaskRepository implements ITaskRepository {
   Future<Either<TasksFailure, int>> newTask(TaskInput taskInput) async {
     try {
       var response = await httpClient.post("/tasks", data: taskInput.toMapSave());
-      return right(response.data);
+      return right(response.statusCode ?? 200);
     } on HttpClientException catch (e) {
       String message = e.data['messageError'] ??
           'Erro ao tentar criar uma tarefa';

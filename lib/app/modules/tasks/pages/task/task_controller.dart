@@ -112,15 +112,17 @@ abstract class _TaskControllerBase with Store {
 
   updateTask(String idTask) {
     taskInput = taskInput.copyWith(
-        title: taskModel.title,
-        description: descriptionController.text,
-        idProject: taskModel.idProject,
-        dateEnd: dateSeleted.toString(),
-        dateInit: taskModel.dateInit,
-        status: taskModel.status);
+      title: taskModel.title,
+      description: descriptionController.text,
+      idProject: taskModel.idProject,
+      dateEnd: dateSeleted.toString(),
+      dateInit: taskModel.dateInit,
+      status: taskModel.status,
+    );
 
-    saveTaskObservable =
-        iTaskRepository.updateTask(taskInput, idTask).asObservable();
+    saveTaskObservable = iTaskRepository
+        .updateTask(taskInput, idTask)
+        .asObservable();
 
     saveTaskObservable?.whenComplete(
       () => saveTaskObservable?.value?.fold(
@@ -149,5 +151,29 @@ abstract class _TaskControllerBase with Store {
     );
   }
 
-  completedTask() {}
+  completedTask(TaskModel taskModel) async {
+    taskModel = taskModel.copyWith(
+      status: "COMPLETED",
+    );
+
+    taskInput = TaskInput(
+      status: "COMPLETED",
+      description: taskModel.description,
+      idProject: taskModel.idProject,
+      dateEnd: taskModel.dateEnd,
+      dateInit: taskModel.dateInit,
+      title: taskModel.title,
+    );
+
+    saveTaskObservable = iTaskRepository
+        .updateTask(taskInput, taskModel.id ?? "")
+        .asObservable();
+
+    saveTaskObservable?.whenComplete(
+          () => saveTaskObservable?.value?.fold(
+            (l) => null,
+            (r) => tasksController.getTasks(),
+      ),
+    );
+  }
 }

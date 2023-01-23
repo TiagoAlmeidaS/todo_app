@@ -20,7 +20,7 @@ class CustomNavigationBarModule extends Module {
         ),
         Bind((i) => TaskRepository(i.get())),
         Bind(
-          (i) => TasksController(i.get(), i.get()),
+          (i) => TasksController(i.get(), i.get(), i.get()),
         ),
         Bind(
           (i) => TasksRepository(i.get()),

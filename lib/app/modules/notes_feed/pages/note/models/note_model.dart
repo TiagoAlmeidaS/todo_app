@@ -6,31 +6,35 @@ NoteModel notesModelFromMap(String str) =>
 // String notesModelToMap(NoteModel data) => json.decode(data.toMap());
 
 class NoteModel {
-  int? id;
+  String? id;
   String? title;
   String? description;
-  int? createAt;
+  String? dateCreated;
+  String? dateUpdate;
 
-  NoteModel({this.id, this.title, this.description, this.createAt});
+  NoteModel({this.id, this.title, this.description, this.dateCreated, this.dateUpdate});
 
-  NoteModel copyWith({int? id, String? title, String? description, int? createAt}) => NoteModel(
+  NoteModel copyWith({String? id, String? title, String? description, String? dateCreated, String? dateUpdate}) => NoteModel(
         id: id ?? this.id,
         description: description ?? this.description,
         title: title ?? this.title,
-        createAt: createAt ?? this.createAt
+        dateCreated: dateCreated ?? this.dateCreated,
+        dateUpdate: dateUpdate ?? this.dateUpdate,
       );
 
   factory NoteModel.fromMap(Map<String, dynamic> json) => NoteModel(
-    id: json["id"] == null ? null : json["id"],
-    description: json["description"] == null ? null : json["description"],
-    title: json["title"] == null ? null : json["title"],
-    createAt: json["createAt"] == null ? null : json["createAt"],
+    id: json["id"] ?? "",
+    description: json["description"] ?? "",
+    title: json["title"] ?? "",
+    dateCreated: json["date_created"] ?? "",
+    dateUpdate: json["date_update"] ?? "",
   );
 
   Map<String, dynamic> toMap() => {
-    "id": id == null ? null : id,
-    "description": description == null ? null : description,
-    "title": title == null ? null : title,
-    "createAt": createAt == null ? null : createAt,
+    "id": id ?? "",
+    "description": description ?? "",
+    "title": title ?? "",
+    "date_created": dateCreated ?? "",
+    "date_update": dateUpdate ?? "",
   };
 }

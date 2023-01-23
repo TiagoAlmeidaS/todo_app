@@ -6,7 +6,6 @@ import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/custom_navigation_bar/routers/custom_navigation_router.dart';
 import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/shared/modules/auth/errors/auth_failure.dart';
-import 'package:todo_app/app/shared/modules/auth/models/authentication_model.dart';
 
 import '../../../services/local_storage/local_storage_service.dart';
 import '../models/auth_signin_model.dart';
@@ -99,7 +98,7 @@ abstract class _AuthStoreBase with Store {
           await _localStorageService.set('auth_options', {});
         },
         (r) async {
-          String newToken = await refreshToken(r);
+          String newToken = await refreshToken(r.token ?? "");
           setCustomerId(r.customerId);
           setAccessToken(newToken);
           setCustomerEmail(r.email);
@@ -145,23 +144,23 @@ abstract class _AuthStoreBase with Store {
   }
 
   @observable
-  ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>?
-      authenticationObservable;
+  ObservableFuture<Either<AuthFailure, String>?>? authenticationObservable;
 
   @action
-  Future<String> refreshToken(AuthSignInModel authSignInModel) async {
-    AuthenticationInput authenticationInput =
-        AuthenticationInput(id: customerId, token: token, name: customerName);
+  Future<String> refreshToken(String tokenInput) async {
     authenticationObservable =
-        authRepository.refreshToken(authenticationInput).asObservable();
+        authRepository.refreshToken(tokenInput).asObservable();
 
     String tokenNew = "";
 
     await authenticationObservable?.whenComplete(
       () => authenticationObservable?.value?.fold(
-        (l) => null,
+        (l) {
+          isValidToken = false;
+          fetchAuthSignOut();
+        },
         (r) {
-          tokenNew = r.token ?? "";
+          tokenNew = r;
           isValidToken = true;
         },
       ),

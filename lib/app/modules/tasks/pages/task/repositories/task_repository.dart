@@ -63,7 +63,7 @@ class TaskRepository implements ITaskRepository {
   Future<Either<TasksFailure, int>> deleteTask(String idTask) async {
     try {
       var response = await httpClient.delete("/tasks/$idTask");
-      return right(response.data);
+      return right(response.statusCode ?? 200);
     } on HttpClientException catch (e) {
       String message = e.data['messageError'] ??
           'Erro ao tentar excluir';

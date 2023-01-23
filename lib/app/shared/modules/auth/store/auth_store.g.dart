@@ -141,15 +141,14 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       Atom(name: '_AuthStoreBase.authenticationObservable', context: context);
 
   @override
-  ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>?
-      get authenticationObservable {
+  ObservableFuture<Either<AuthFailure, String>?>? get authenticationObservable {
     _$authenticationObservableAtom.reportRead();
     return super.authenticationObservable;
   }
 
   @override
   set authenticationObservable(
-      ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>? value) {
+      ObservableFuture<Either<AuthFailure, String>?>? value) {
     _$authenticationObservableAtom
         .reportWrite(value, super.authenticationObservable, () {
       super.authenticationObservable = value;
@@ -201,9 +200,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       AsyncAction('_AuthStoreBase.refreshToken', context: context);
 
   @override
-  Future<String> refreshToken(AuthSignInModel authSignInModel) {
-    return _$refreshTokenAsyncAction
-        .run(() => super.refreshToken(authSignInModel));
+  Future<String> refreshToken(String tokenInput) {
+    return _$refreshTokenAsyncAction.run(() => super.refreshToken(tokenInput));
   }
 
   @override

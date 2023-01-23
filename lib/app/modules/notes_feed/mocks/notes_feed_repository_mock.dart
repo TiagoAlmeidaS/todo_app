@@ -20,4 +20,16 @@ class NotesFeedRepositoryMock implements INotesFeedRepository {
       );
     }
   }
+
+  @override
+  Future<Either<NotesFeedFailure, MyNotesModel>> fetchNotes(String userId) {
+    // TODO: implement fetchNotes
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<NotesFeedFailure, MyNotesModel>> filterNotes(String dateSelect) {
+    // TODO: implement filterNotes
+    throw UnimplementedError();
+  }
 }

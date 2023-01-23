@@ -9,6 +9,22 @@ part of 'notes_feed_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$NotesFeedController on _NotesFeedControllerBase, Store {
+  late final _$selectedAtom =
+      Atom(name: '_NotesFeedControllerBase.selected', context: context);
+
+  @override
+  DateTime get selected {
+    _$selectedAtom.reportRead();
+    return super.selected;
+  }
+
+  @override
+  set selected(DateTime value) {
+    _$selectedAtom.reportWrite(value, super.selected, () {
+      super.selected = value;
+    });
+  }
+
   late final _$myNotesObservableAtom = Atom(
       name: '_NotesFeedControllerBase.myNotesObservable', context: context);
 
@@ -46,6 +62,7 @@ mixin _$NotesFeedController on _NotesFeedControllerBase, Store {
   @override
   String toString() {
     return '''
+selected: ${selected},
 myNotesObservable: ${myNotesObservable},
 myNotesModel: ${myNotesModel}
     ''';

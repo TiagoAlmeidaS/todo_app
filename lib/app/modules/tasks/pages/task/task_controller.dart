@@ -138,7 +138,7 @@ abstract class _TaskControllerBase with Store {
       description: descriptionController.text,
       idProject: taskModel.idProject,
       dateEnd: dateSeleted.toString(),
-      dateInit: DateTime.now().toString(),
+      dateInit: Utils.dateDDMMYYTimer(DateTime.now()),
     );
 
     saveTaskObservable = iTaskRepository.newTask(taskInput).asObservable();

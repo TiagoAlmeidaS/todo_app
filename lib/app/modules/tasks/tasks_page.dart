@@ -117,7 +117,7 @@ class _TasksPageState extends State<TasksPage> {
                           () => controller.deleteTasksObservable?.value?.fold(
                             (l) => TodoFlushBar(
                                 color: FlushBarColor.ERROR, message: l.message),
-                            (r) => null,
+                            (r) => {},
                           ),
                         ),
                       },
@@ -147,6 +147,7 @@ class _TasksPageState extends State<TasksPage> {
         ...list.map((e) {
           return const TodoCardTask(
             state: TodoCardTaskState.loading,
+            padding: EdgeInsets.symmetric(horizontal: 0),
           );
         })
       ],

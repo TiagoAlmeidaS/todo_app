@@ -42,12 +42,15 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
                     icon: LineAwesomeIcons.search,
                     actionIcon: () => {},
                   ),
-                  const TodoCalendary(
+                  TodoCalendary(
                     temperature: 24,
                     month: 'Janeiro',
                     timerNow: '5:00 PM',
                     location: "Sapé - Paraíba",
                     srcImage: "https://sape.pb.gov.br/wp-content/uploads/2022/11/Sape.jpeg",
+                    initialSelectedTime: controller.selected,
+                    selectDate: (selectedDate) =>
+                        controller.filterNotes(selectedDate!),
                   ),
                   content()
                 ],
@@ -93,31 +96,34 @@ class _NotesFeedPageState extends State<NotesFeedPage> {
 
   Widget contentLoading(context) {
     return Column(
-      children: [
-        const SizedBox(
-          height: 27,
+      children: const [
+        TodoTitlePage(
+          firstLabel: "Note",
+          secondLabel: "Feed",
         ),
         TodoShimmer(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.02,
-            width: double.maxFinite,
-          ),
+          child: TodoCalendary(),
         ),
-        const SizedBox(
+        SizedBox(
           height: 27,
         ),
-        const TodoHeaderPage(
+        TodoHeaderPage(
           label: "History Notes",
           icon: LineAwesomeIcons.search,
-          padding: EdgeInsets.zero,
         ),
-        const TodoCardNote(
+        TodoCardNote(
           state: TodoCardNoteState.loading,
         ),
-        const TodoCardNote(
+        SizedBox(height: 5,),
+        TodoCardNote(
           state: TodoCardNoteState.loading,
         ),
-        const TodoCardNote(
+        SizedBox(height: 5,),
+        TodoCardNote(
+          state: TodoCardNoteState.loading,
+        ),
+        SizedBox(height: 5,),
+        TodoCardNote(
           state: TodoCardNoteState.loading,
         ),
       ],

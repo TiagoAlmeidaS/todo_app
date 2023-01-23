@@ -17,17 +17,17 @@ class MyNotesModel {
       );
 
   factory MyNotesModel.fromMap(Map<String, dynamic> json) => MyNotesModel(
-        myNotes: json["myNotes"] == null
+        myNotes: json["notes"] == null
             ? null
             : List<NoteModel>.from(
-                json["myNotes"].map(
+                json["notes"].map(
                   (x) => NoteModel.fromMap(x),
                 ),
               ),
       );
 
   Map<String, dynamic> toMap() => {
-        "myNotes": myNotes == null
+        "notes": myNotes == null
             ? null
             : List<dynamic>.from(
                 myNotes!.map(

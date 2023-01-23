@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:todo_app/app/shared/modules/auth/errors/auth_failure.dart';
 import 'package:todo_app/app/shared/modules/auth/interfaces/auth_repository_interface.dart';
-import 'package:todo_app/app/shared/modules/auth/models/authentication_model.dart';
 import 'package:todo_app/app/shared/services/http_client/http_client.dart';
 
 import '../../../services/http_client/errors/http_client_exception.dart';
@@ -13,11 +12,10 @@ class AuthRepository implements IAuthRepository {
   AuthRepository(this.httpClient);
 
   @override
-  Future<Either<AuthFailure, AuthenticationOutput>> refreshToken(AuthenticationInput authenticationInput) async {
+  Future<Either<AuthFailure, String>> refreshToken(String token) async {
     try {
       var response = await httpClient.post("/users/authentication");
-      AuthenticationOutput authenticationOutput = AuthenticationOutput.fromMap(response.data);
-      return right(authenticationOutput);
+      return right(response.data);
     } on HttpClientException catch (e) {
       String message = e.data['messageError'] ??
           'Erro interno';

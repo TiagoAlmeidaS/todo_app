@@ -6,8 +6,8 @@ import 'package:todo_app/app/modules/tasks/pages/task/repositories/task_reposito
 import 'package:todo_app/app/modules/tasks/repositories/tasks_repository.dart';
 import 'package:todo_app/app/modules/tasks/tasks_controller.dart';
 
-import '../notes_feed/mocks/notes_feed_repository_mock.dart';
 import '../notes_feed/notes_feed_controller.dart';
+import '../notes_feed/repositories/notes_feed_repository.dart';
 
 class CustomNavigationBarModule extends Module {
   @override
@@ -16,7 +16,7 @@ class CustomNavigationBarModule extends Module {
           (i) => NotesFeedController(i.get()),
         ),
         Bind(
-          (i) => NotesFeedRepositoryMock(),
+          (i) => NotesFeedRepository(i.get()),
         ),
         Bind((i) => TaskRepository(i.get())),
         Bind(

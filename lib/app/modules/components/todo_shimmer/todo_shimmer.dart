@@ -8,29 +8,37 @@ class TodoShimmer extends StatelessWidget {
     Key? key,
     this.child,
     this.borderRadius = BorderRadius.zero,
+    this.padding,
   }) : super(key: key);
 
   final Widget? child;
   final BorderRadiusGeometry borderRadius;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {
-    return Shimmer(
-      period: const Duration(seconds: 1),
-      loop: 50,
-      gradient: LinearGradient(
-        colors: [
-          Modular.get<ITodoTheme>().shadesOfLight[300]!,
-          Modular.get<ITodoTheme>().shadesOfLight[500]!,
-          Modular.get<ITodoTheme>().shadesOfLight[300]!,
-        ],
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: borderRadius,
-          color: Modular.get<ITodoTheme>().shadesOfLight[500],
+    return Padding(
+      padding: padding ??
+          const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+      child: Shimmer(
+        period: const Duration(seconds: 1),
+        loop: 50,
+        gradient: LinearGradient(
+          colors: [
+            Modular.get<ITodoTheme>().shadesOfLight[300]!,
+            Modular.get<ITodoTheme>().shadesOfLight[500]!,
+            Modular.get<ITodoTheme>().shadesOfLight[300]!,
+          ],
         ),
-        child: child,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: borderRadius,
+            color: Modular.get<ITodoTheme>().shadesOfLight[500],
+          ),
+          child: child,
+        ),
       ),
     );
   }

@@ -125,13 +125,16 @@ class _TodoCardTaskState extends State<TodoCardTask> {
                     ),
                   ),
                   GestureDetector(
-                      onTap: widget.onTapDelete,
+                      onTap: () {
+                        widget.onTapDelete?.call();
+                        isToDelete = !isToDelete;
+                      },
                       child: AnimatedContainer(
                         width: isToDelete ? 50 : 0,
                         alignment: Alignment.center,
                         padding: widget.padding ??
                             const EdgeInsets.symmetric(vertical: 12),
-                        duration: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           color:
                               Modular.get<ITodoTheme>().colorScheme.dangerPink,

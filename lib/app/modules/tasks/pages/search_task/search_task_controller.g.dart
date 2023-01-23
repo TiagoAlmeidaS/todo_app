@@ -43,6 +43,20 @@ mixin _$SearchTaskController on _SearchTaskControllerBase, Store {
     });
   }
 
+  late final _$_SearchTaskControllerBaseActionController =
+      ActionController(name: '_SearchTaskControllerBase', context: context);
+
+  @override
+  TodoTextInputMessage searchRulesOnLeave(String? str) {
+    final _$actionInfo = _$_SearchTaskControllerBaseActionController
+        .startAction(name: '_SearchTaskControllerBase.searchRulesOnLeave');
+    try {
+      return super.searchRulesOnLeave(str);
+    } finally {
+      _$_SearchTaskControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

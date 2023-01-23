@@ -40,84 +40,87 @@ class _TodoCardTaskState extends State<TodoCardTask> {
       padding: widget.margin ??
           const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
       child: GestureDetector(
-        onTap: widget.state == TodoCardTaskState.standard
-            ? widget.onTapCard
-            : null,
         onLongPress: () => changeIsToDelete(isToDelete),
         child: widget.state == TodoCardTaskState.standard
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: widget.padding ??
-                          const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: Modular.get<ITodoTheme>().shadesOfLight[100],
-                        boxShadow: [
-                          BoxShadow(
-                            color: Modular.get<ITodoTheme>()
-                                .shadesOfDark[500]!
-                                .withOpacity(0.16),
-                            offset: const Offset(0, 2),
-                            blurRadius: 2,
-                          ),
-                        ],
-                        borderRadius: isToDelete
-                            ? const BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                bottomLeft: Radius.circular(12),
-                              )
-                            : const BorderRadius.all(
-                                Radius.circular(12),
-                              ),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(
-                                    color: Modular.get<ITodoTheme>()
-                                        .pinkColorDarker,
-                                    width: 1)),
-                            padding: const EdgeInsets.all(4),
-                            child: Container(
+                    child: GestureDetector(
+                      onTap: widget.state == TodoCardTaskState.standard
+                          ? widget.onTapCard
+                          : null,
+                      child: Container(
+                        padding: widget.padding ??
+                            const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                        decoration: BoxDecoration(
+                          color: Modular.get<ITodoTheme>().shadesOfLight[100],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Modular.get<ITodoTheme>()
+                                  .shadesOfDark[500]!
+                                  .withOpacity(0.16),
+                              offset: const Offset(0, 2),
+                              blurRadius: 2,
+                            ),
+                          ],
+                          borderRadius: isToDelete
+                              ? const BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12),
+                                )
+                              : const BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(2),
-                                color: widget.statusTask ?? false
-                                    ? Modular.get<ITodoTheme>().pinkColorDarker
-                                    : Modular.get<ITodoTheme>()
-                                        .pinkColorDarker
-                                        .withOpacity(0),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(
+                                      color: Modular.get<ITodoTheme>()
+                                          .pinkColorDarker,
+                                      width: 1)),
+                              padding: const EdgeInsets.all(4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(2),
+                                  color: widget.statusTask ?? false
+                                      ? Modular.get<ITodoTheme>()
+                                          .pinkColorDarker
+                                      : Modular.get<ITodoTheme>()
+                                          .pinkColorDarker
+                                          .withOpacity(0),
+                                ),
+                                height: 10,
+                                width: 10,
                               ),
-                              height: 10,
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "${widget.title}",
+                                maxLines: 1,
+                                style: Modular.get<ITodoTheme>().titleCardNote,
+                              ),
+                            ),
+                            const SizedBox(
                               width: 10,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                            child: Text(
-                              "${widget.title}",
-                              maxLines: 1,
-                              style: Modular.get<ITodoTheme>().titleCardNote,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "${widget.date}",
-                            textAlign: TextAlign.right,
-                            style: Modular.get<ITodoTheme>()
-                                .titleCardNote
-                                .copyWith(fontSize: 16),
-                          )
-                        ],
+                            Text(
+                              "${widget.date}",
+                              textAlign: TextAlign.right,
+                              style: Modular.get<ITodoTheme>()
+                                  .titleCardNote
+                                  .copyWith(fontSize: 16),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -168,8 +171,7 @@ class _TodoCardTaskState extends State<TodoCardTask> {
         children: [
           Expanded(
             child: Container(
-              margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [

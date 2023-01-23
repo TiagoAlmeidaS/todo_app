@@ -16,13 +16,6 @@ mixin _$TasksController on _TasksControllerBase, Store {
           Computed<dynamic>(() => super.dateNowFormmated,
               name: '_TasksControllerBase.dateNowFormmated'))
       .value;
-  Computed<dynamic>? _$customerIdComputed;
-
-  @override
-  dynamic get customerId =>
-      (_$customerIdComputed ??= Computed<dynamic>(() => super.customerId,
-              name: '_TasksControllerBase.customerId'))
-          .value;
 
   late final _$fetchTasksObservableAtom =
       Atom(name: '_TasksControllerBase.fetchTasksObservable', context: context);
@@ -79,6 +72,59 @@ mixin _$TasksController on _TasksControllerBase, Store {
     });
   }
 
+  late final _$deleteTasksObservableAtom = Atom(
+      name: '_TasksControllerBase.deleteTasksObservable', context: context);
+
+  @override
+  ObservableFuture<Either<TasksFailure, void>?>? get deleteTasksObservable {
+    _$deleteTasksObservableAtom.reportRead();
+    return super.deleteTasksObservable;
+  }
+
+  @override
+  set deleteTasksObservable(
+      ObservableFuture<Either<TasksFailure, void>?>? value) {
+    _$deleteTasksObservableAtom.reportWrite(value, super.deleteTasksObservable,
+        () {
+      super.deleteTasksObservable = value;
+    });
+  }
+
+  late final _$selectedAtom =
+      Atom(name: '_TasksControllerBase.selected', context: context);
+
+  @override
+  DateTime get selected {
+    _$selectedAtom.reportRead();
+    return super.selected;
+  }
+
+  @override
+  set selected(DateTime value) {
+    _$selectedAtom.reportWrite(value, super.selected, () {
+      super.selected = value;
+    });
+  }
+
+  late final _$tasksByDayTasksObservableAtom = Atom(
+      name: '_TasksControllerBase.tasksByDayTasksObservable', context: context);
+
+  @override
+  ObservableFuture<Either<TasksFailure, TasksModel>?>?
+      get tasksByDayTasksObservable {
+    _$tasksByDayTasksObservableAtom.reportRead();
+    return super.tasksByDayTasksObservable;
+  }
+
+  @override
+  set tasksByDayTasksObservable(
+      ObservableFuture<Either<TasksFailure, TasksModel>?>? value) {
+    _$tasksByDayTasksObservableAtom
+        .reportWrite(value, super.tasksByDayTasksObservable, () {
+      super.tasksByDayTasksObservable = value;
+    });
+  }
+
   late final _$tasksResumeModelAtom =
       Atom(name: '_TasksControllerBase.tasksResumeModel', context: context);
 
@@ -101,9 +147,11 @@ mixin _$TasksController on _TasksControllerBase, Store {
 fetchTasksObservable: ${fetchTasksObservable},
 tasksModel: ${tasksModel},
 fetchResumeTasksObservable: ${fetchResumeTasksObservable},
+deleteTasksObservable: ${deleteTasksObservable},
+selected: ${selected},
+tasksByDayTasksObservable: ${tasksByDayTasksObservable},
 tasksResumeModel: ${tasksResumeModel},
-dateNowFormmated: ${dateNowFormmated},
-customerId: ${customerId}
+dateNowFormmated: ${dateNowFormmated}
     ''';
   }
 }

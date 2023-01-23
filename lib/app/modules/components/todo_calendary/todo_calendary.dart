@@ -7,7 +7,7 @@ import 'package:todo_app/app/shared/utils/theme/i_theme.dart';
 import '../todo_date_picker/todo_date_picker.dart';
 
 class TodoCalendary extends StatefulWidget {
-   const TodoCalendary({
+  const TodoCalendary({
     Key? key,
     this.padding,
     this.margin = const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -18,7 +18,10 @@ class TodoCalendary extends StatefulWidget {
     this.timerNow = "",
     this.location = "",
     this.srcImage,
-    this.isMinBoard = false
+    this.isMinBoard = false,
+    this.initialSelectedTime,
+    this.selectDate,
+    this.disable = false,
   }) : super(key: key);
 
   final EdgeInsets? padding;
@@ -31,6 +34,9 @@ class TodoCalendary extends StatefulWidget {
   final String? location;
   final String? srcImage;
   final bool? isMinBoard;
+  final bool? disable;
+  final DateTime? initialSelectedTime;
+  final void Function(DateTime?)? selectDate;
 
   @override
   State<TodoCalendary> createState() => _TodoCalendaryState();
@@ -67,9 +73,11 @@ class _TodoCalendaryState extends State<TodoCalendary> {
               DateTime.now().subtract(
                 const Duration(days: 2),
               ),
+              disabled: widget.disable ?? false,
               width: 70,
+              locale: "pt",
               controller: _controller,
-              initialSelectedDate: DateTime.now(),
+              initialSelectedDate: widget.initialSelectedTime ?? DateTime.now(),
               selectionColor: Modular.get<ITodoTheme>()
                   .shadesOfLight[200]!
                   .withOpacity(0.3),
@@ -77,11 +85,15 @@ class _TodoCalendaryState extends State<TodoCalendary> {
               dayTextStyle: Modular.get<ITodoTheme>().dayLabel,
               monthTextStyle: Modular.get<ITodoTheme>().monthLabel,
               dateTextStyle: Modular.get<ITodoTheme>().numberDayLabel,
-              onDateChange: (date) {
-                setState(() {
-                  _selectedValue = date;
-                });
-              },
+              onDateChange: (widget.disable ?? false)
+                  ? (date) {}
+                  : (date) {
+                      setState(() {
+                        _selectedValue = date;
+                        widget.selectDate!.call(date);
+                      });
+                      // selectedValue(date);
+                    },
             ),
           ),
           Container(
@@ -97,149 +109,163 @@ class _TodoCalendaryState extends State<TodoCalendary> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: (widget.isMinBoard ?? false) ? [
-                Text(
-                  '${widget.timerNow}',
-                  style: Modular.get<ITodoTheme>().timerNow,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.temperature}',
-                      style: Modular.get<ITodoTheme>().tempature.copyWith(fontSize: 26),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 5,
+              children: (widget.isMinBoard ?? false)
+                  ? [
+                      Text(
+                        '${widget.timerNow}',
+                        style: Modular.get<ITodoTheme>().timerNow,
                       ),
-                      child: Text(
-                        '° C',
-                        style: Modular.get<ITodoTheme>().grade.copyWith(fontSize: 14),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: 10,
-                      ),
-                      child: Icon(
-                        actionIcon(),
-                        size: 15,
-                        color: Modular.get<ITodoTheme>()
-                            .primaryColorMain,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "${widget.location}",
-                      style: Modular.get<ITodoTheme>().location,
-                    ),
-                    Icon(
-                      LineAwesomeIcons.map_marker,
-                      color: Modular.get<ITodoTheme>().primaryColorMain,
-                    ),
-                  ],
-                ),
-              ] : [
-                Container(
-                  child: widget.status == TodoCalendaryStatus.loading
-                      ? const TodoShimmer(
-                          child: SizedBox(
-                            height: 50,
-                            width: 30,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${widget.temperature}',
+                            style: Modular.get<ITodoTheme>()
+                                .tempature
+                                .copyWith(fontSize: 26),
                           ),
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 5,
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 5,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${widget.temperature}',
-                                  style: Modular.get<ITodoTheme>().tempature,
+                            child: Text(
+                              '° C',
+                              style: Modular.get<ITodoTheme>()
+                                  .grade
+                                  .copyWith(fontSize: 14),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 2,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              bottom: 10,
+                            ),
+                            child: Icon(
+                              actionIcon(),
+                              size: 15,
+                              color: Modular.get<ITodoTheme>().primaryColorMain,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            "${widget.location}",
+                            style: Modular.get<ITodoTheme>().location,
+                          ),
+                          Icon(
+                            LineAwesomeIcons.map_marker,
+                            color: Modular.get<ITodoTheme>().primaryColorMain,
+                          ),
+                        ],
+                      ),
+                    ]
+                  : [
+                      Container(
+                        child: widget.status == TodoCalendaryStatus.loading
+                            ? const TodoShimmer(
+                                child: SizedBox(
+                                  height: 50,
+                                  width: 30,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 5,
+                              )
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 5,
                                   ),
-                                  child: Text(
-                                    '°C',
-                                    style: Modular.get<ITodoTheme>().grade,
+                                  Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '${widget.temperature}',
+                                        style:
+                                            Modular.get<ITodoTheme>().tempature,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 5,
+                                        ),
+                                        child: Text(
+                                          '°C',
+                                          style:
+                                              Modular.get<ITodoTheme>().grade,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 2,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 10,
+                                        ),
+                                        child: Icon(
+                                          actionIcon(),
+                                          size: 15,
+                                          color: Modular.get<ITodoTheme>()
+                                              .primaryColorMain,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 2,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10,
+                                  const SizedBox(
+                                    height: 4,
                                   ),
-                                  child: Icon(
-                                    actionIcon(),
-                                    size: 15,
-                                    color: Modular.get<ITodoTheme>()
-                                        .primaryColorMain,
+                                  Text(
+                                    '${widget.month}',
+                                    style: Modular.get<ITodoTheme>().month,
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '${widget.month}',
-                              style: Modular.get<ITodoTheme>().month,
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '${widget.timerNow}',
-                              style: Modular.get<ITodoTheme>().timerNow,
-                            ),
-                          ],
-                        ),
-                ),
-                const SizedBox(width: 5,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: widget.srcImage != null ? Image.network(
-                          "${widget.srcImage}",
-                          fit: BoxFit.contain,
-                        ) : const TodoShimmer(),
-                      )
-                    ),
-                    const SizedBox(height: 5,),
-                    Row(
-                      children: [
-                        Icon(
-                          LineAwesomeIcons.map_marker,
-                          color: Modular.get<ITodoTheme>().primaryColorMain,
-                        ),
-                        Text(
-                          "${widget.location}",
-                          style: Modular.get<ITodoTheme>().location,
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                                  const SizedBox(
+                                    height: 4,
+                                  ),
+                                  Text(
+                                    '${widget.timerNow}',
+                                    style: Modular.get<ITodoTheme>().timerNow,
+                                  ),
+                                ],
+                              ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                              height: 120,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: widget.srcImage != null
+                                    ? Image.network(
+                                        "${widget.srcImage}",
+                                        fit: BoxFit.contain,
+                                      )
+                                    : const TodoShimmer(),
+                              )),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                LineAwesomeIcons.map_marker,
+                                color:
+                                    Modular.get<ITodoTheme>().primaryColorMain,
+                              ),
+                              Text(
+                                "${widget.location}",
+                                style: Modular.get<ITodoTheme>().location,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
             ),
           ),
         ],

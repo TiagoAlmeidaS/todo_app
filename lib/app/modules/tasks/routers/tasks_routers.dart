@@ -7,6 +7,12 @@ class TasksRoutes {
     '/tasks/',
   );
 
+  static NavigationRouters task = NavigationRouters(
+    'Tasks',
+    '/task/',
+    '/tasks/task/',
+  );
+
   static NavigationRouters searchTask = NavigationRouters(
     'Search task',
     '/searchTask/',

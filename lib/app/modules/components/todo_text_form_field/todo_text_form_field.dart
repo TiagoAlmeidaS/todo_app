@@ -10,7 +10,7 @@ class TodoTextFormField extends StatefulWidget {
     Key? key,
     this.label,
     this.maxLines,
-    this.minLines,
+    this.minLines =  1,
     @Deprecated('The internal logic of use of this parameter has been removed, having no real effects on the widget, it is recommended to use the rulesOnEnter, rulesOnChange and rulesOnLeave parameters instead')
         this.controller,
     this.autoCorrect,
@@ -157,13 +157,11 @@ class _TodoTextFormFieldState extends State<TodoTextFormField>
                   : [],
             ),
             child: TextFormField(
-              expands: widget.expands ?? true,
-              minLines: widget.minLines,
+              expands: widget.expands ?? false,
               maxLines: widget.maxLines,
               autocorrect: widget.autoCorrect ?? false,
               enabled: widget.enabled,
               controller: _controller,
-              maxLength: widget.maxLength,
               inputFormatters: widget.inputFormatters,
               keyboardType: widget.keyboardType,
               obscureText: (widget.obscureText ?? false) && _hideText,
@@ -179,7 +177,7 @@ class _TodoTextFormFieldState extends State<TodoTextFormField>
                     widget.state == TodoTextFieldState.standard,
                 fillColor: (widget.enabled ?? false)
                     ? Modular.get<ITodoTheme>().primaryColorLight
-                    : Modular.get<ITodoTheme>().shadesOfDark[100]!,
+                    : Modular.get<ITodoTheme>().shadesOfLight[400]!,
                 counter: const Offstage(),
                 isDense: true,
                 prefixIcon: widget.prefixIcon != null

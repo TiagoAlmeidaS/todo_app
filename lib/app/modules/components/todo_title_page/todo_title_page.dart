@@ -11,14 +11,18 @@ class TodoTitlePage extends StatelessWidget {
     this.padding,
     this.icon,
     this.actionIcon,
+    this.status = TodoTitlePageStatus.standard,
+    this.iconSize,
   });
 
-  final String? firstLabel;
-  final String? secondLabel;
+  final String firstLabel;
+  final String secondLabel;
   final EdgeInsets? margin;
   final EdgeInsets? padding;
   final IconData? icon;
+  final double? iconSize;
   final Function()? actionIcon;
+  final TodoTitlePageStatus? status;
 
   @override
   Widget build(BuildContext context) {
@@ -31,28 +35,58 @@ class TodoTitlePage extends StatelessWidget {
           RichText(
             textAlign: TextAlign.left,
             text: TextSpan(
-              text: "$firstLabel ",
+              text: firstLabel,
               style: Modular.get<ITodoTheme>().firstLabelTitle,
               children: [
                 TextSpan(
-                  text: secondLabel,
+                  text: firstLabel.isEmpty ? secondLabel : " $secondLabel",
                   style: Modular.get<ITodoTheme>().secondLabelTitle,
                 ),
               ],
             ),
           ),
           const Spacer(),
-          if(actionIcon != null)
-          GestureDetector(
-            onTap: actionIcon,
-            child: Icon(
-              icon,
-              size: 20,
-              color: Modular.get<ITodoTheme>().primaryColorMain,
+          if (actionIcon != null && status != TodoTitlePageStatus.disabled) ...{
+            GestureDetector(
+              onTap: actionIcon,
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, color: colorBackGround()),
+                child: Icon(
+                  icon,
+                  size: iconSize ?? 20,
+                  color: colorIcon(),
+                ),
+              ),
             ),
-          )
+          }
         ],
       ),
     );
   }
+
+  Color? colorIcon() {
+    switch (status) {
+      case TodoTitlePageStatus.fillRounded:
+        return Modular.get<ITodoTheme>().primaryColorMain;
+      case TodoTitlePageStatus.fillRoundedDanger:
+        return Modular.get<ITodoTheme>().shadesOfLight[100];
+      default:
+        return Modular.get<ITodoTheme>().primaryColorMain;
+    }
+  }
+
+  Color? colorBackGround() {
+    switch (status) {
+      case TodoTitlePageStatus.fillRounded:
+        return Modular.get<ITodoTheme>().textFieldBackgroundColor;
+      case TodoTitlePageStatus.fillRoundedDanger:
+        return Modular.get<ITodoTheme>().colorScheme.dangerPink;
+      default:
+        return Colors.transparent;
+    }
+  }
 }
+
+enum TodoTitlePageStatus { standard, fillRounded, fillRoundedDanger, disabled }

@@ -86,6 +86,22 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
+  late final _$isValidTokenAtom =
+      Atom(name: '_AuthStoreBase.isValidToken', context: context);
+
+  @override
+  bool get isValidToken {
+    _$isValidTokenAtom.reportRead();
+    return super.isValidToken;
+  }
+
+  @override
+  set isValidToken(bool value) {
+    _$isValidTokenAtom.reportWrite(value, super.isValidToken, () {
+      super.isValidToken = value;
+    });
+  }
+
   late final _$authSignInModelAtom =
       Atom(name: '_AuthStoreBase.authSignInModel', context: context);
 
@@ -118,6 +134,25 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       ObservableFuture<Either<AuthFailure, AuthSignOutModel>?>? value) {
     _$authSignOutModelAtom.reportWrite(value, super.authSignOutModel, () {
       super.authSignOutModel = value;
+    });
+  }
+
+  late final _$authenticationObservableAtom =
+      Atom(name: '_AuthStoreBase.authenticationObservable', context: context);
+
+  @override
+  ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>?
+      get authenticationObservable {
+    _$authenticationObservableAtom.reportRead();
+    return super.authenticationObservable;
+  }
+
+  @override
+  set authenticationObservable(
+      ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>? value) {
+    _$authenticationObservableAtom
+        .reportWrite(value, super.authenticationObservable, () {
+      super.authenticationObservable = value;
     });
   }
 
@@ -162,51 +197,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$fetchAuthSignOutAsyncAction.run(() => super.fetchAuthSignOut());
   }
 
-  late final _$_AuthStoreBaseActionController =
-      ActionController(name: '_AuthStoreBase', context: context);
+  late final _$refreshTokenAsyncAction =
+      AsyncAction('_AuthStoreBase.refreshToken', context: context);
 
   @override
-  dynamic setCustomerId(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerId');
-    try {
-      return super.setCustomerId(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setCustomerName(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerName');
-    try {
-      return super.setCustomerName(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setCustomerEmail(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setCustomerEmail');
-    try {
-      return super.setCustomerEmail(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setAccessToken(String? value) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setAccessToken');
-    try {
-      return super.setAccessToken(value);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<String> refreshToken(AuthSignInModel authSignInModel) {
+    return _$refreshTokenAsyncAction
+        .run(() => super.refreshToken(authSignInModel));
   }
 
   @override
@@ -216,8 +213,10 @@ customerId: ${customerId},
 customerName: ${customerName},
 customerEmail: ${customerEmail},
 token: ${token},
+isValidToken: ${isValidToken},
 authSignInModel: ${authSignInModel},
 authSignOutModel: ${authSignOutModel},
+authenticationObservable: ${authenticationObservable},
 isLogged: ${isLogged},
 profileNavigateRoute: ${profileNavigateRoute}
     ''';

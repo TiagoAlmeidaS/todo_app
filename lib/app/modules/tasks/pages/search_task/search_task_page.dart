@@ -25,7 +25,8 @@ class _SearchTaskPageState extends State<SearchTaskPage> {
           return Column(
             children: [
               const TodoTitlePage(firstLabel: "Search", secondLabel: "Task"),
-              const TodoTextFormField(
+               TodoTextFormField(
+                rulesOnLeave: controller.searchRulesOnLeave,
                 enabled: true,
                 prefixIcon: LineAwesomeIcons.search,
                 withShadow: true,

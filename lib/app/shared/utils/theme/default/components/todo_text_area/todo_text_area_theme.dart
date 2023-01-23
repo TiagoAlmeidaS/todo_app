@@ -7,8 +7,14 @@ mixin TodoTextAreaThemeMixin implements ITodoTheme {
 
   @override
   TextStyle get inputLabelTodoTextArea => GoogleFonts.inter(
-    fontSize: 20,
+    fontSize: 18,
     color: Modular.get<ITodoTheme>().shadesOfDark[500],
+  );
+
+  @override
+  TextStyle get hintTodoTextArea => GoogleFonts.inter(
+    fontSize: 14,
+    color: Modular.get<ITodoTheme>().shadesOfDark[300],
   );
   
 }

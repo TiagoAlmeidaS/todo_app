@@ -6,7 +6,7 @@ class TaskModel {
   final String? id;
   final String? idUser;
   final String? dateInit;
-  final String? dateEnd;
+  late final String? dateEnd;
   final String? title;
   final String? description;
   final String? status;
@@ -87,9 +87,22 @@ class TaskModel {
         "date_end": dateEnd ?? "",
         "title": title ?? "",
         "description": description ?? "",
-        "status": status ?? "",
-        "id_project": status ?? "",
+        "status": statusSwitch,
+        "id_project": idProject ?? "",
       };
+
+  String statusSwitch() {
+    switch (statusTask){
+      case TaskStatus.OPEN:
+        return "OPEN";
+      case TaskStatus.PROCESS:
+        return "PROCESS";
+      default:
+        return "COMPLETED";
+    }
+  }
 }
+
+
 
 enum TaskStatus { OPEN, PROCESS, COMPLETED }

@@ -1,5 +1,3 @@
-
-
 import 'package:date_picker_timeline/extra/color.dart';
 import 'package:date_picker_timeline/extra/style.dart';
 import 'package:date_picker_timeline/gestures/tap.dart';
@@ -11,6 +9,9 @@ class TodoDatePicker extends StatefulWidget {
   /// Start Date in case user wants to show past dates
   /// If not provided calendar will start from the initialSelectedDate
   final DateTime startDate;
+
+  ///Use de disabled when you don`t want select
+  final bool disabled;
 
   /// Width of the selector
   final double width;
@@ -40,7 +41,7 @@ class TodoDatePicker extends StatefulWidget {
   final TextStyle dateTextStyle;
 
   /// Current Selected Date
-  final DateTime?/*?*/ initialSelectedDate;
+  final DateTime? /*?*/ initialSelectedDate;
 
   /// Contains the list of inactive dates.
   /// All the dates defined in this List will be deactivated
@@ -61,27 +62,28 @@ class TodoDatePicker extends StatefulWidget {
   final String locale;
 
   const TodoDatePicker(
-      this.startDate, {
-        super.key,
-        this.width = 60,
-        this.height = 80,
-        this.controller,
-        this.monthTextStyle = defaultMonthTextStyle,
-        this.dayTextStyle = defaultDayTextStyle,
-        this.dateTextStyle = defaultDateTextStyle,
-        this.selectedTextColor = Colors.white,
-        this.selectionColor = AppColors.defaultSelectionColor,
-        this.deactivatedColor = AppColors.defaultDeactivatedColor,
-        this.initialSelectedDate,
-        this.activeDates,
-        this.inactiveDates,
-        this.daysCount = 500,
-        this.onDateChange,
-        this.locale = "en_US",
-      }) : assert(
-  activeDates == null || inactiveDates == null,
-  "Can't "
-      "provide both activated and deactivated dates List at the same time.");
+    this.startDate, {
+    super.key,
+    this.width = 60,
+    this.height = 80,
+    this.controller,
+    this.monthTextStyle = defaultMonthTextStyle,
+    this.dayTextStyle = defaultDayTextStyle,
+    this.dateTextStyle = defaultDateTextStyle,
+    this.selectedTextColor = Colors.white,
+    this.selectionColor = AppColors.defaultSelectionColor,
+    this.deactivatedColor = AppColors.defaultDeactivatedColor,
+    this.initialSelectedDate,
+    this.activeDates,
+    this.inactiveDates,
+    this.daysCount = 500,
+    this.onDateChange,
+    this.locale = "en_US",
+    this.disabled = false,
+  }) : assert(
+            activeDates == null || inactiveDates == null,
+            "Can't "
+            "provide both activated and deactivated dates List at the same time.");
 
   @override
   State<StatefulWidget> createState() => _TodoDatePickerState();
@@ -130,7 +132,8 @@ class _TodoDatePickerState extends State<TodoDatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.only(left: 8),
       height: widget.height,
       child: ListView.builder(
         itemCount: widget.daysCount,
@@ -170,7 +173,7 @@ class _TodoDatePickerState extends State<TodoDatePicker> {
 
           // Check if this date is the one that is currently selected
           bool isSelected =
-          _currentDate != null ? _compareDate(date, _currentDate!) : false;
+              _currentDate != null ? _compareDate(date, _currentDate!) : false;
 
           // Return the Date Widget
           return TodoDateWidget(
@@ -178,35 +181,37 @@ class _TodoDatePickerState extends State<TodoDatePicker> {
             monthTextStyle: isDeactivated
                 ? deactivatedMonthStyle
                 : isSelected
-                ? selectedMonthStyle
-                : widget.monthTextStyle,
+                    ? selectedMonthStyle
+                    : widget.monthTextStyle,
             dateTextStyle: isDeactivated
                 ? deactivatedDateStyle
                 : isSelected
-                ? selectedDateStyle
-                : widget.dateTextStyle,
+                    ? selectedDateStyle
+                    : widget.dateTextStyle,
             dayTextStyle: isDeactivated
                 ? deactivatedDayStyle
                 : isSelected
-                ? selectedDayStyle
-                : widget.dayTextStyle,
+                    ? selectedDayStyle
+                    : widget.dayTextStyle,
             isSelected: isSelected,
             width: widget.width,
             locale: widget.locale,
             selectionColor:
-            isSelected ? widget.selectionColor : Colors.transparent,
-            onDateSelected: (selectedDate) {
-              // Don't notify listener if date is deactivated
-              if (isDeactivated) return;
+                isSelected ? widget.selectionColor : Colors.transparent,
+            onDateSelected: widget.disabled
+                ? (selectedDate) {}
+                : (selectedDate) {
+                    // Don't notify listener if date is deactivated
+                    if (isDeactivated) return;
 
-              // A date is selected
-              if (widget.onDateChange != null) {
-                widget.onDateChange!(selectedDate);
-              }
-              setState(() {
-                _currentDate = selectedDate;
-              });
-            },
+                    // A date is selected
+                    if (widget.onDateChange != null) {
+                      widget.onDateChange!(selectedDate);
+                    }
+                    setState(() {
+                      _currentDate = selectedDate;
+                    });
+                  },
           );
         },
       ),
@@ -232,7 +237,7 @@ class TodoDatePickerController {
 
   void jumpToSelection() {
     assert(_datePickerState != null,
-    'TodoDatePickerController is not attached to any TodoDatePicker View.');
+        'TodoDatePickerController is not attached to any TodoDatePicker View.');
 
     // jump to the current Date
     _datePickerState!._controller
@@ -243,7 +248,7 @@ class TodoDatePickerController {
   void animateToSelection(
       {duration = const Duration(milliseconds: 500), curve = Curves.linear}) {
     assert(_datePickerState != null,
-    'TodoDatePickerController is not attached to any TodoDatePicker View.');
+        'TodoDatePickerController is not attached to any TodoDatePicker View.');
 
     // animate to the current date
     _datePickerState!._controller.animateTo(
@@ -257,7 +262,7 @@ class TodoDatePickerController {
   void animateToDate(DateTime date,
       {duration = const Duration(milliseconds: 500), curve = Curves.linear}) {
     assert(_datePickerState != null,
-    'TodoDatePickerController is not attached to any TodoDatePicker View.');
+        'TodoDatePickerController is not attached to any TodoDatePicker View.');
 
     _datePickerState!._controller.animateTo(_calculateDateOffset(date),
         duration: duration, curve: curve);

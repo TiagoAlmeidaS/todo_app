@@ -32,16 +32,16 @@ class AuthSignInModel {
       );
 
   factory AuthSignInModel.fromMap(Map<String, dynamic> json) => AuthSignInModel(
-        customerId: json["customer_id"] ?? "",
+        customerId: json["id"] ?? "",
         token: json["token"] ?? "",
         email: json["email"] ?? "",
-        customerName: json["customer_email"] ?? "",
+        customerName: json["name"] ?? "",
       );
 
   Map<String, dynamic> toMap() => {
-        "customer_id": customerId ?? "",
+        "id": customerId ?? "",
         "token": token ?? "",
         "email": email ?? "",
-        "customer_email": customerName ?? "",
+        "name": customerName ?? "",
       };
 }

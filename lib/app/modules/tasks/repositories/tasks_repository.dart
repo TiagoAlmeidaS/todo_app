@@ -37,15 +37,28 @@ class TasksRepository implements ITasksRepository {
   }
 
   @override
-  Future<Either<TasksFailure, TasksModel>> fetchTask(String userId, String nameTask) {
-    // TODO: implement fetchTask
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<Either<TasksFailure, TasksModel>> filterTasks(String userId, int dateSelect) {
-    // TODO: implement filterTasks
-    throw UnimplementedError();
+  Future<Either<TasksFailure, TasksModel>> filterTasks(String dateSelect) async {
+    try {
+      var response = await httpClient.get("/tasks/$dateSelect/day");
+      TasksModel tasksModel = TasksModel.fromMap(response.data);
+      return right(tasksModel);
+    } on HttpClientException catch (e) {
+      String message = e.data['messageError'] ??
+          'Erro ao tentar carregar as ativides por dia';
+      int statusCode = e.statusCode ?? 400;
+      return left(
+        TasksFailure(
+          message: message,
+          status: statusCode,
+        ),
+      );
+    } catch (e) {
+      return left(
+        TasksFailure(
+          message: 'Erro ao tentar carregar as ativides por dia',
+        ),
+      );
+    }
   }
 
   @override

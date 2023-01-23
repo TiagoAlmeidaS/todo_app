@@ -27,4 +27,10 @@ class ProfileRouters {
     "/welcome/",
     "/profile/welcome/",
   );
+
+  static NavigationRouters signout = NavigationRouters(
+    "Logout",
+    "/logout/",
+    "/profile/logout/",
+  );
 }

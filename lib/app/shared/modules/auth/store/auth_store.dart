@@ -6,11 +6,13 @@ import 'package:mobx/mobx.dart';
 import 'package:todo_app/app/modules/custom_navigation_bar/routers/custom_navigation_router.dart';
 import 'package:todo_app/app/modules/profile/routers/profile_routers.dart';
 import 'package:todo_app/app/shared/modules/auth/errors/auth_failure.dart';
+import 'package:todo_app/app/shared/modules/auth/models/authentication_model.dart';
 
 import '../../../services/local_storage/local_storage_service.dart';
 import '../models/auth_signin_model.dart';
 import '../models/auth_signout_model.dart';
 import '../repositories/auth_local_repository.dart';
+import '../repositories/auth_repository.dart';
 
 part 'auth_store.g.dart';
 
@@ -19,8 +21,10 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 abstract class _AuthStoreBase with Store {
   final LocalStorageService _localStorageService;
   final AuthLocalRepository _authLocalRepository;
+  final AuthRepository authRepository;
 
-  _AuthStoreBase(this._localStorageService, this._authLocalRepository);
+  _AuthStoreBase(this._localStorageService, this._authLocalRepository,
+      this.authRepository);
 
   @action
   initializer() async {
@@ -30,7 +34,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerId = "";
 
-  @action
   setCustomerId(String? value) {
     customerId = value ?? "";
   }
@@ -38,7 +41,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerName = "";
 
-  @action
   setCustomerName(String? value) {
     customerName = value ?? "";
   }
@@ -46,7 +48,6 @@ abstract class _AuthStoreBase with Store {
   @observable
   String customerEmail = "";
 
-  @action
   setCustomerEmail(String? value) {
     customerEmail = value ?? "";
   }
@@ -54,14 +55,24 @@ abstract class _AuthStoreBase with Store {
   @observable
   String token = "";
 
-  @action
+  @observable
+  bool isValidToken = false;
+
   setAccessToken(String? value) {
     token = value ?? "";
   }
 
+  setUserCredential(AuthSignInModel authSignInModel) {
+    setCustomerId(authSignInModel.customerId);
+    setAccessToken(authSignInModel.token);
+    setCustomerId(authSignInModel.customerId);
+    setCustomerEmail(authSignInModel.email);
+    setCustomerName(authSignInModel.customerName);
+  }
+
   @computed
   bool get isLogged {
-    return token.isNotEmpty;
+    return token.isNotEmpty && isValidToken;
   }
 
   @computed
@@ -88,9 +99,9 @@ abstract class _AuthStoreBase with Store {
           await _localStorageService.set('auth_options', {});
         },
         (r) async {
+          String newToken = await refreshToken(r);
           setCustomerId(r.customerId);
-          setAccessToken(r.token);
-          setCustomerId(r.customerId);
+          setAccessToken(newToken);
           setCustomerEmail(r.email);
           setCustomerName(r.customerName);
         },
@@ -112,7 +123,6 @@ abstract class _AuthStoreBase with Store {
       customerName: customerName,
     );
 
-    setCustomerId(authSignInModel.customerId);
     setAccessToken(authSignInModel.token);
     setCustomerId(authSignInModel.customerId);
     setCustomerEmail(authSignInModel.email);
@@ -130,17 +140,33 @@ abstract class _AuthStoreBase with Store {
   @action
   Future fetchAuthSignOut() async {
     log('LOGOUT AUTH STORE');
-    return authSignOutModel!.value!.fold(
-      (l) async {
-        authSignInModel = null;
-        await _localStorageService.remove('auth_options');
-      },
-      (r) async {
-        if (r.isLoggedOut) {
-          authSignInModel = null;
-          await _localStorageService.remove('auth_options');
-        }
-      },
+    authSignInModel = null;
+    await _localStorageService.remove('auth_options');
+  }
+
+  @observable
+  ObservableFuture<Either<AuthFailure, AuthenticationOutput>?>?
+      authenticationObservable;
+
+  @action
+  Future<String> refreshToken(AuthSignInModel authSignInModel) async {
+    AuthenticationInput authenticationInput =
+        AuthenticationInput(id: customerId, token: token, name: customerName);
+    authenticationObservable =
+        authRepository.refreshToken(authenticationInput).asObservable();
+
+    String tokenNew = "";
+
+    await authenticationObservable?.whenComplete(
+      () => authenticationObservable?.value?.fold(
+        (l) => null,
+        (r) {
+          tokenNew = r.token ?? "";
+          isValidToken = true;
+        },
+      ),
     );
+
+    return tokenNew;
   }
 }

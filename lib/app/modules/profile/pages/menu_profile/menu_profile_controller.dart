@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:todo_app/app/modules/profile/pages/signout/signout_controller.dart';
 import 'package:todo_app/app/shared/modules/auth/store/auth_store.dart';
 
 part 'menu_profile_controller.g.dart';
@@ -9,8 +10,9 @@ class MenuProfileController = _MenuProfileControllerBase with _$MenuProfileContr
 
 abstract class _MenuProfileControllerBase with Store {
   final AuthStore _authStore;
+  final SignoutController signoutController;
 
-  _MenuProfileControllerBase(this._authStore);
+  _MenuProfileControllerBase(this._authStore, this.signoutController);
 
   @computed
   get customerName => _authStore.customerName;

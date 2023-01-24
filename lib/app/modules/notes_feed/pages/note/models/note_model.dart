@@ -37,4 +37,9 @@ class NoteModel {
     "date_created": dateCreated ?? "",
     "date_update": dateUpdate ?? "",
   };
+
+  Map<String, dynamic> toMapSave() => {
+    "description": description ?? "",
+    "title": title ?? "",
+  };
 }

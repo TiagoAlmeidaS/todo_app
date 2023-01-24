@@ -42,11 +42,47 @@ mixin _$NoteController on _NoteControllerBase, Store {
     });
   }
 
+  late final _$saveObservableAtom =
+      Atom(name: '_NoteControllerBase.saveObservable', context: context);
+
+  @override
+  ObservableFuture<Either<NotesFeedFailure, NoteModel>?>? get saveObservable {
+    _$saveObservableAtom.reportRead();
+    return super.saveObservable;
+  }
+
+  @override
+  set saveObservable(
+      ObservableFuture<Either<NotesFeedFailure, NoteModel>?>? value) {
+    _$saveObservableAtom.reportWrite(value, super.saveObservable, () {
+      super.saveObservable = value;
+    });
+  }
+
+  late final _$deleteObservableAtom =
+      Atom(name: '_NoteControllerBase.deleteObservable', context: context);
+
+  @override
+  ObservableFuture<Either<NotesFeedFailure, int>?>? get deleteObservable {
+    _$deleteObservableAtom.reportRead();
+    return super.deleteObservable;
+  }
+
+  @override
+  set deleteObservable(
+      ObservableFuture<Either<NotesFeedFailure, int>?>? value) {
+    _$deleteObservableAtom.reportWrite(value, super.deleteObservable, () {
+      super.deleteObservable = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 titleController: ${titleController},
-descriptionController: ${descriptionController}
+descriptionController: ${descriptionController},
+saveObservable: ${saveObservable},
+deleteObservable: ${deleteObservable}
     ''';
   }
 }
